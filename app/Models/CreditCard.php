@@ -11,6 +11,11 @@ class CreditCard extends Model
         'closing_day',
         'due_day',
         'credit_limit',
-        'user_id',
+        'account_id'
     ];
+
+    public function account()
+    {
+        return $this->belongsTo(Account::class);
+    }
 }

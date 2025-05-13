@@ -18,6 +18,14 @@
             </div>
             <div class="row mb-3">
                 <div class="col-6">
+                    <label for="account_id" class="form-label">Conta</label>
+                    <select name="account_id" id="account_id" class="form-select" required>
+                        @foreach ($accounts as $account)
+                            <option value="{{ $account->id }}">{{ $account->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="col-6">
                     <label for="closing_day" class="form-label">Dia de fechamento</label>
                     <input
                         type="number"
@@ -30,6 +38,8 @@
                         required
                     />
                 </div>
+            </div>
+            <div class="row mb-3">
                 <div class="col-6">
                     <label for="due_day" class="form-label">Dia de vencimento</label>
                     <input
@@ -43,9 +53,7 @@
                         required
                     />
                 </div>
-            </div>
-            <div class="row mb-3">
-                <div class="col-12">
+                <div class="col-6">
                     <label for="credit_limit" class="form-label">Limite de crédito</label>
                     <input type="number"
                         name="credit_limit"

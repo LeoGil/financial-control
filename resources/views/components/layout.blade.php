@@ -28,7 +28,10 @@
             </a>
             <ul class="dropdown-menu text-small">
               <li>
-                <a class="dropdown-item" href="{{ route('credit_cards.index') }}">Cartões</a>
+                <a class="dropdown-item" href="{{ route('accounts.index') }}">Contas</a>
+              </li>
+              <li>
+                <a class="dropdown-item" href="{{ route('statements.index') }}">Faturas</a>
               </li>
               {{-- <li>
                 <a class="dropdown-item" href="#">Settings</a>

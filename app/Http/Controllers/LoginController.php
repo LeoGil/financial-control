@@ -23,7 +23,7 @@ class LoginController extends Controller
             return back()->withErrors('Usuário ou senha inválidos.');
         }
 
-        return redirect()->route('statements.index');
+        return redirect()->route('accounts.index');
     }
 
     public function destroy()

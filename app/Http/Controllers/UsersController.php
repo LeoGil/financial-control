@@ -28,6 +28,6 @@ class UsersController extends Controller
         $user = User::create($data);
         Auth::login($user);
 
-        return redirect()->route('statements.index');
+        return redirect()->route('accounts.index');
     }
 }

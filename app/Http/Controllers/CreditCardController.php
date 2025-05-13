@@ -3,31 +3,30 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CreditCardRequest;
+use App\Models\Account;
 use App\Models\CreditCard;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class CreditCardController extends Controller
 {
-    public function index()
+    public function index(Account $account)
     {
-        $creditCards = CreditCard::all();
+        $creditCards = $account->creditCards;
         $mensagemSucesso = session('mensagem.sucesso');
 
-        return view('credit_cards.index', compact('creditCards', 'mensagemSucesso'));
+        return view('credit_cards.index', compact('creditCards', 'mensagemSucesso', 'account'));
     }
 
     public function create()
     {
-        return view('credit_cards.create');
+        $accounts = Account::all();
+        return view('credit_cards.create', compact('accounts'));
     }
 
     public function store(CreditCardRequest $request)
     {
-        $data = $request->validated();
-        $data['user_id'] = Auth::user()->id;
-
-        CreditCard::create($data);
+        CreditCard::create($request->all());
 
         return redirect()->route('credit_cards.index')
             ->with('mensagem.sucesso', 'Cartão cadastrado com sucesso!');
