@@ -22,6 +22,11 @@ class Account extends Model
         return $this->hasMany(CreditCard::class);
     }
 
+    public function statements()
+    {
+        return $this->hasMany(Statement::class);
+    }
+
     protected static function booted()
     {
         static::creating(function (Account $account) {

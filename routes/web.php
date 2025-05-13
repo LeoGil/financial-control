@@ -21,7 +21,7 @@ Route::middleware(Authenticator::class)->group(function () {
         return redirect('/accounts');
     });
 
-    Route::resource('statements', StatementController::class)->except(['create', 'edit']);
+    Route::resource('statements', StatementController::class)->except(['create', 'edit', 'index']);
     Route::resource('transactions', TransactionController::class)->only(['create', 'store']);
 
     // Remove index porque agora está sendo tratado pela rota aninhada
@@ -30,6 +30,9 @@ Route::middleware(Authenticator::class)->group(function () {
     // Rota aninhada para acessar os cartões de uma conta específica
     Route::get('accounts/{account}/credit_cards', [CreditCardController::class, 'index'])
         ->name('accounts.credit_cards.index');
+
+    Route::get('accounts/{account}/statements', [StatementController::class, 'index'])
+        ->name('accounts.statements.index');
 
     Route::resource('accounts', AccountController::class)->except(['view']);
 });

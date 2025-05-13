@@ -28,7 +28,7 @@ class CreditCardController extends Controller
     {
         CreditCard::create($request->all());
 
-        return redirect()->route('credit_cards.index')
+        return redirect()->route('accounts.credit_cards.index', $request->account_id)
             ->with('mensagem.sucesso', 'Cartão cadastrado com sucesso!');
     }
 
@@ -36,7 +36,7 @@ class CreditCardController extends Controller
     {
         $creditCard->delete();
 
-        return redirect()->route('credit_cards.index')
+        return redirect()->route('accounts.credit_cards.index', $creditCard->account_id)
             ->with('mensagem.sucesso', 'Cartão excluido com sucesso!');
     }
 }

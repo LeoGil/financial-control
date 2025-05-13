@@ -8,6 +8,7 @@
             <li class="list-group-item d-flex justify-content-between align-items-center">
                 {{ $account->name }}
                 <div class="float-end d-flex gap-2">
+                    <a href="{{ route('accounts.statements.index', $account->id) }}" class="btn btn-info btn-sm" title="Faturas vinculadas">Faturas</a>
                     <a href="{{ route('accounts.credit_cards.index', $account->id) }}" class="btn btn-primary btn-sm" title="Cartões vinculados">Cartões</a>
                     <a href="{{ route('accounts.edit', $account->id) }}" class="btn btn-warning btn-sm">Editar</a>
                     <form action="{{ route('accounts.destroy', $account->id) }}" method="POST" onsubmit="return confirm('Deseja realmente excluir? Todas as faturas/cartões vinculadas a essa conta serão excluidas')">

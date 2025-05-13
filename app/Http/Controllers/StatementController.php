@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Account;
 use App\Models\Statement;
 use Illuminate\Http\Request;
 
 class StatementController extends Controller
 {
-    public function index()
+    public function index(Account $account)
     {
         $statements = Statement::all();
         $mensagemSucesso = session('mensagem.sucesso');

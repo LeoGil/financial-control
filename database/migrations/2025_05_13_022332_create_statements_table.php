@@ -13,7 +13,6 @@ return new class extends Migration
     {
         Schema::create('statements', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('credit_card_id')->constrained()->onDelete('cascade');
             $table->foreignId('account_id')->constrained()->onDelete('cascade');
             $table->date('opening_date');
             $table->date('closing_date');
