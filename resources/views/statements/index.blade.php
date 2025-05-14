@@ -6,8 +6,8 @@
     <ul class="list-group">
         @foreach ($statements as $statement)
             <li class="list-group-item d-flex justify-content-between align-items-center">
-                {{-- <a href="{{ route('seasons.index', $statement->id) }}">{{ $statement->name }}</a>
-                <div class="float-end d-flex gap-2">
+                Fatura atual em <b>R${{ $statement->total_amount }}</b>
+                {{-- <div class="float-end d-flex gap-2">
                     <a href="{{ route('series.edit', $serie->id) }}" class="btn btn-warning btn-sm">Editar</a>
                     <form action="{{ route('series.destroy', $serie->id) }}" method="POST" onsubmit="return confirm('Deseja realmente excluir?')">
                         @csrf

@@ -32,9 +32,5 @@ class Account extends Model
         static::creating(function (Account $account) {
             $account->user_id = Auth::user()->id;
         });
-
-        self::addGlobalScope('byUser', function ($query) {
-            $query->where('user_id', Auth::user()->id);
-        });
     }
 }

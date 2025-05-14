@@ -5,13 +5,13 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CreditCardRequest;
 use App\Models\Account;
 use App\Models\CreditCard;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 class CreditCardController extends Controller
 {
     public function index(Account $account)
     {
+        Gate::authorize('creditCards', $account);
         $creditCards = $account->creditCards;
         $mensagemSucesso = session('mensagem.sucesso');
 

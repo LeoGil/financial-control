@@ -11,7 +11,7 @@ class AccountController extends Controller
 {
     public function index()
     {
-        $accounts = Account::all();
+        $accounts = Auth::user()->accounts;
         $mensagemSucesso = session('mensagem.sucesso');
 
         return view('accounts.index', compact('accounts', 'mensagemSucesso'));
