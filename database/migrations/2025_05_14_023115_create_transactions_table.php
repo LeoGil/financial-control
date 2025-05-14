@@ -20,7 +20,8 @@ return new class extends Migration
             $table->string('description')->nullable();
             $table->decimal('amount', 12, 2);
             $table->foreignId('category_id')->constrained()->onDelete('cascade');
-            $table->foreignId('subcategory_id')->constrained()->onDelete('cascade');
+            $table->foreignId('subcategory_id')->constrained()->onDelete('cascade')->nullable();
+            $table->foreignId('budget_category_id')->constrained()->onDelete('cascade')->nullable();
             $table->tinyInteger('installment');
             $table->tinyInteger('installment_number');
             $table->string('merchant');

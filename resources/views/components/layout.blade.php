@@ -30,12 +30,12 @@
               <li>
                 <a class="dropdown-item" href="{{ route('accounts.index') }}">Contas</a>
               </li>
-              {{-- <li>
-                <a class="dropdown-item" href="#">Settings</a>
+              <li>
+                <a class="dropdown-item" href="#">Categorias</a>
               </li>
               <li>
-                <a class="dropdown-item" href="#">Profile</a>
-              </li> --}}
+                <a class="dropdown-item" href="#">Orçamentos</a>
+              </li>
               <li>
                 <hr class="dropdown-divider">
               </li>
