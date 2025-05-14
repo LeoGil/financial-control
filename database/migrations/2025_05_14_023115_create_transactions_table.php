@@ -13,18 +13,14 @@ return new class extends Migration
     {
         Schema::create('transactions', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('statement_id')->constrained()->onDelete('cascade');
             $table->foreignId('credit_card_id')->constrained()->onDelete('cascade');
             $table->date('date');
             $table->string('name');
             $table->string('description')->nullable();
             $table->decimal('amount', 12, 2);
             $table->foreignId('category_id')->constrained()->onDelete('cascade');
-            $table->foreignId('subcategory_id')->constrained()->onDelete('cascade')->nullable();
-            $table->foreignId('budget_category_id')->constrained()->onDelete('cascade')->nullable();
-            $table->tinyInteger('installment');
-            $table->tinyInteger('installment_number');
-            $table->string('merchant');
+            $table->foreignId('subcategory_id')->nullable()->constrained()->onDelete('cascade');
+            $table->foreignId('budget_category_id')->nullable()->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }
