@@ -57,6 +57,8 @@ class TransactionService
                 'installment_total'   => $installmentCount,
                 'amount'              => $installmentValue,
             ]);
+
+            $this->statementRepository->incrementTotalAmount($statement, $installmentValue);
         }
 
         return $transaction;

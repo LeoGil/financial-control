@@ -31,7 +31,20 @@ class StatementRepository
             'closing_date' => $closingDate,
             'due_date' => $dueDate,
             'total_amount' => 0,
-            'status' => 'open',
+            'status' => $dueDate->isPast() ? 'overdue' : 'open',
+        ]);
+    }
+
+    public function incrementTotalAmount(Statement $statement, $amount)
+    {
+        $statement->increment('total_amount', $amount);
+    }
+
+    public function pay(Statement $statement)
+    {
+        $statement->update([
+            'status' => 'paid',
+            'payment_date' => now(),
         ]);
     }
 }

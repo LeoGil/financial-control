@@ -1,22 +1,51 @@
 <x-layout title="Faturas" :mensagemSucesso="$mensagemSucesso">
-    <a href="{{ route('transactions.create') }}" class="btn btn-success btn-sm fw-bold mb-3">Nova transação</a>
+    <a href="{{ route('transactions.create') }}" class="btn btn-success btn-sm fw-bold mb-3">Nova transação</a>
+
     @if ($statements->isEmpty())
-    <p class="text-center text-muted"><i>Nenhuma fatura cadastrada.</i></p>
+        <p class="text-center text-muted"><i>Nenhuma fatura cadastrada.</i></p>
     @else
-    <ul class="list-group">
-        @foreach ($statements as $statement)
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-                Fatura atual em <b>R${{ $statement->total_amount }}</b>
-                {{-- <div class="float-end d-flex gap-2">
-                    <a href="{{ route('series.edit', $serie->id) }}" class="btn btn-warning btn-sm">Editar</a>
-                    <form action="{{ route('series.destroy', $serie->id) }}" method="POST" onsubmit="return confirm('Deseja realmente excluir?')">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="btn btn-danger btn-sm">Excluir</button>
-                    </form>
-                </div> --}}
-            </li>
-        @endforeach
-    </ul>
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover align-middle">
+                <thead class="table-light">
+                    <tr>
+                        <th>Valor Total</th>
+                        <th>Vencimento</th>
+                        <th>Status</th>
+                        <th class="text-center">Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($statements as $statement)
+                        @php
+                            $badgeData = match($statement->status) {
+                                'open' => ['text-bg-primary', 'Aberta'],
+                                'closed' => ['text-bg-secondary', 'Fechada'],
+                                'paid' => ['text-bg-success', 'Paga'],
+                                'overdue' => ['text-bg-danger', 'Vencida'],
+                                default => ['text-bg-light', 'Desconhecido']
+                            };
+                        @endphp
+                        <tr>
+                            <td><strong>R${{ number_format($statement->total_amount, 2, ',', '.') }}</strong></td>
+                            <td>{{ $statement->due_date->format('d/m/Y') }}</td>
+                            <td><span class="badge {{ $badgeData[0] }}">{{ $badgeData[1] }}</span></td>
+                            <td class="text-center">
+                                @if ($statement->status !== 'paid')
+                                <form action="{{ route('accounts.statements.pay', [$statement->account_id, $statement->id]) }}" method="POST" class="d-inline" onsubmit="return confirm('Deseja realmente pagar essa fatura?')">
+                                    @csrf
+                                    @method('PUT')
+                                    <button type="submit" class="btn btn-sm btn-success">
+                                        Pagar
+                                    </button>
+                                </form>
+                                @endif
+                                <a href="#" class="btn btn-sm btn-primary">Transações</a>
+                                <!-- outros botões se necessário -->
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
     @endif
 </x-layout>

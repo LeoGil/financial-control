@@ -30,6 +30,7 @@ Route::middleware(Authenticator::class)->group(function () {
     Route::prefix('accounts/{account}')->name('accounts.')->group(function () {
         Route::get('credit_cards', [CreditCardController::class, 'index'])->name('credit_cards.index');
         Route::get('statements', [StatementController::class, 'index'])->name('statements.index');
+        Route::put('statements/{statement}/pay', [StatementController::class, 'pay'])->name('statements.pay');
     });
 
     Route::resource('accounts', AccountController::class)->except(['view']);
