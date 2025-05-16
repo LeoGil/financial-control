@@ -1,6 +1,4 @@
 <x-layout title="Faturas" :mensagemSucesso="$mensagemSucesso">
-    <a href="{{ route('transactions.create') }}" class="btn btn-success btn-sm fw-bold mb-3">Nova transação</a>
-
     @if ($statements->isEmpty())
         <p class="text-center text-muted"><i>Nenhuma fatura cadastrada.</i></p>
     @else

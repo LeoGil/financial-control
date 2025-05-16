@@ -105,6 +105,7 @@
                 </div>
             </div>
             <button type="submit" class="btn btn-success">Salvar</button>
+            <a href="{{ route('accounts.index') }}" class="btn btn-secondary">Voltar para contas</a>
         </form>
     </x-form>
 </x-layout>

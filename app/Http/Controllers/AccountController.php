@@ -11,7 +11,10 @@ class AccountController extends Controller
 {
     public function index()
     {
-        $accounts = Auth::user()->accounts;
+        $accounts = Auth::user()->accounts()
+            ->with('latestStatement')
+            ->withCount('statements')
+            ->get();
         $mensagemSucesso = session('mensagem.sucesso');
 
         return view('accounts.index', compact('accounts', 'mensagemSucesso'));

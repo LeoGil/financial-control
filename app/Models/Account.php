@@ -27,6 +27,11 @@ class Account extends Model
         return $this->hasMany(Statement::class);
     }
 
+    public function latestStatement()
+    {
+        return $this->hasOne(Statement::class)->oldestOfMany('opening_date')->where('status', 'open');
+    }
+
     protected static function booted()
     {
         static::creating(function (Account $account) {
