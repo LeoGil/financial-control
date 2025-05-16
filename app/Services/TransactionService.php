@@ -2,11 +2,13 @@
 
 namespace App\Services;
 
+use App\Models\Transaction;
 use App\Repositories\CreditCardRepository;
 use App\Repositories\StatementRepository;
 use App\Repositories\TransactionRepository;
 use App\Repositories\InstallmentRepository;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class TransactionService
 {
@@ -62,6 +64,30 @@ class TransactionService
         }
 
         return $transaction;
+    }
+
+    public function destroy(Transaction $transaction): void
+    {
+        // 1) carrega todas as installments com statements
+        $installments = $transaction
+            ->installments()
+            ->with('statement')
+            ->get();
+
+        // 2) agrupa por statement_id
+        $grouped = $installments
+            ->groupBy('statement_id')
+            ->map(fn($g) => [
+                'count' => $g->count(),
+                'sum_amount' => $g->sum('amount'),
+            ])
+            ->toArray();
+
+        // 3) executa ajustes e delete em transação
+        DB::transaction(function () use ($grouped, $transaction) {
+            $this->statementRepository->adjustAfterTransactionDeletion($grouped);
+            $this->transactionRepository->delete($transaction);
+        });
     }
 
     private function parseDate($date)

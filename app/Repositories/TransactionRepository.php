@@ -11,7 +11,7 @@ class TransactionRepository
         return Transaction::create($data);
     }
 
-    public function destroy(Transaction $transaction)
+    public function delete(Transaction $transaction): void
     {
         $transaction->delete();
     }

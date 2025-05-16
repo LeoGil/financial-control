@@ -50,9 +50,17 @@ class TransactionController extends Controller
         return redirect()->route('transactions.create');
     }
 
-    public function destroy(Account $account, Transaction $transaction, TransactionRepository $transactionRepository)
-    {
-        $transactionRepository->destroy($transaction);
-        return redirect()->route('accounts.statements.index', $account)->with('mensagem.sucesso', 'Transação excluida com sucesso!');
+    public function destroy(
+        Account $account,
+        Transaction $transaction,
+        TransactionService $service
+    ) {
+        Gate::authorize('statements', $account);
+
+        $service->destroy($transaction);
+
+        return redirect()
+            ->route('accounts.statements.index', $account)
+            ->with('mensagem.sucesso', 'Transação excluída com sucesso!');
     }
 }

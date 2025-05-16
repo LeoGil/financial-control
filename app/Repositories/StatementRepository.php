@@ -52,4 +52,29 @@ class StatementRepository
     {
         return $statement->installments()->with('transaction')->orderBy('created_at')->get();
     }
+
+    /**
+     * Ajusta os statements após exclusão de uma transaction.
+     *
+     * @param array<int, array{count:int, sum_amount:float}> $groupedData
+     */
+    public function adjustAfterTransactionDeletion(array $groupedData): void
+    {
+        $statementIds = array_keys($groupedData);
+
+        $statements = Statement::withCount('installments')
+            ->whereIn('id', $statementIds)
+            ->get();
+
+        foreach ($statements as $statement) {
+            $txData = $groupedData[$statement->id];
+            $remaining = $statement->installments_count - $txData['count'];
+
+            if ($remaining < 1) {
+                $statement->delete();
+            } else {
+                $statement->decrement('total_amount', $txData['sum_amount']);
+            }
+        }
+    }
 }
