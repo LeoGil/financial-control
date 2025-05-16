@@ -34,4 +34,9 @@ class Statement extends Model
     {
         return $this->hasMany(Installment::class);
     }
+
+    public function transactions()
+    {
+        return $this->hasManyThrough(Transaction::class, Installment::class);
+    }
 }

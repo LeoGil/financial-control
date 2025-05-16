@@ -16,4 +16,9 @@ class AccountPolicy
     {
         return $user->id === $account->user_id;
     }
+
+    public function delete(User $user, Account $account): bool
+    {
+        return $user->id === $account->user_id;
+    }
 }

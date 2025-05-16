@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CreditCardRequest;
 use App\Models\Account;
 use App\Models\CreditCard;
+use App\Repositories\AccountRepository;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 
 class CreditCardController extends Controller
@@ -18,9 +20,9 @@ class CreditCardController extends Controller
         return view('credit_cards.index', compact('creditCards', 'mensagemSucesso', 'account'));
     }
 
-    public function create()
+    public function create(AccountRepository $accountRepository)
     {
-        $accounts = Account::all();
+        $accounts = $accountRepository->getByUserId(Auth::user()->id);
         return view('credit_cards.create', compact('accounts'));
     }
 

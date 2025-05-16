@@ -47,4 +47,9 @@ class StatementRepository
             'payment_date' => now(),
         ]);
     }
+
+    public function getInstallments(Statement $statement)
+    {
+        return $statement->installments()->with('transaction')->orderBy('created_at')->get();
+    }
 }

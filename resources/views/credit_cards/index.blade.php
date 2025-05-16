@@ -1,5 +1,6 @@
 <x-layout title="Cartões" :mensagemSucesso="$mensagemSucesso">
     <a href="{{ route('credit_cards.create') }}" class="btn btn-success btn-sm fw-bold mb-3">Novo cartão</a>
+    <a href="{{ route('accounts.index') }}" class="btn btn-sm btn-secondary mb-3">Voltar para contas</a>
     @if ($creditCards->isEmpty())
     <p class="text-center text-muted"><i>Nenhum cartão cadastrado.</i></p>
     @else

@@ -33,13 +33,13 @@
                                 @if ($statement->status !== 'paid')
                                 <form action="{{ route('accounts.statements.pay', [$statement->account_id, $statement->id]) }}" method="POST" class="d-inline" onsubmit="return confirm('Deseja realmente pagar essa fatura?')">
                                     @csrf
-                                    @method('PUT')
+                                    @method('PATCH')
                                     <button type="submit" class="btn btn-sm btn-success">
                                         Pagar
                                     </button>
                                 </form>
                                 @endif
-                                <a href="#" class="btn btn-sm btn-primary">Transações</a>
+                                <a href="{{ route('accounts.statements.transactions', [$statement->account_id, $statement->id]) }}" class="btn btn-sm btn-primary">Transações</a>
                                 <!-- outros botões se necessário -->
                             </td>
                         </tr>
