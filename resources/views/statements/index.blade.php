@@ -1,8 +1,9 @@
 <x-layout title="Faturas" :mensagemSucesso="$mensagemSucesso">
+    <a href="{{ route('accounts.index') }}" class="btn btn-sm btn-secondary">Voltar para contas</a>
     @if ($statements->isEmpty())
         <p class="text-center text-muted"><i>Nenhuma fatura cadastrada.</i></p>
     @else
-        <div class="table-responsive">
+        <div class="table-responsive mt-3">
             <table class="table table-bordered table-hover align-middle">
                 <thead class="table-light">
                     <tr>

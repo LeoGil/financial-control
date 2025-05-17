@@ -6,6 +6,7 @@ use App\Http\Controllers\StatementController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\AccountController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Middleware\Authenticator;
 use Illuminate\Support\Facades\Route;
 
@@ -22,6 +23,8 @@ Route::middleware(Authenticator::class)->group(function () {
     });
 
     Route::resource('transactions', TransactionController::class)->only(['create', 'store']);
+
+    Route::resource('categories', CategoryController::class)->except(['view']);
 
     // Remove index porque agora está sendo tratado pela rota aninhada
     Route::resource('credit_cards', CreditCardController::class)->except(['view', 'index']);

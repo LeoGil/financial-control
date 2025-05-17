@@ -31,7 +31,7 @@
                 <a class="dropdown-item" href="{{ route('accounts.index') }}">Contas</a>
               </li>
               <li>
-                <a class="dropdown-item" href="#">Categorias</a>
+                <a class="dropdown-item" href="{{ route('categories.index') }}">Categorias</a>
               </li>
               <li>
                 <a class="dropdown-item" href="#">Orçamentos</a>
