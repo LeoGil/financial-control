@@ -9,9 +9,9 @@
             <li class="list-group-item d-flex justify-content-between align-items-center">
                 <div>
                     <strong>{{ $account->name }}</strong><br>
-                    @if ($account->latestStatement)
+                    @if ($account->oldestOpenStatement)
                         <small class="text-muted">
-                            Fatura atual: R$ {{ number_format($account->latestStatement->total_amount, 2, ',', '.') }} - Vencimento em: {{ $account->latestStatement->due_date->format('d/m/Y') }}
+                            Fatura atual: R$ {{ number_format($account->oldestOpenStatement->total_amount, 2, ',', '.') }} - Vencimento em: {{ $account->oldestOpenStatement->due_date->format('d/m/Y') }}
                         </small>
                     @else
                         <small class="text-muted"><i>Sem fatura atual</i></small>
@@ -21,12 +21,12 @@
                 <div class="float-end d-flex gap-2">
                     <a href="{{ route('accounts.statements.index', $account->id) }}" class="btn btn-info btn-sm">Faturas</a>
                     <a href="{{ route('accounts.credit_cards.index', $account->id) }}" class="btn btn-primary btn-sm">Cartões</a>
-                    <a href="{{ route('accounts.edit', $account->id) }}" class="btn btn-warning btn-sm">Editar</a>
+                    {{-- <a href="{{ route('accounts.edit', $account->id) }}" class="btn btn-warning btn-sm">Editar</a>
                     <form action="{{ route('accounts.destroy', $account->id) }}" method="POST" onsubmit="return confirm('Deseja realmente excluir? Todas as faturas/cartões vinculadas a essa conta serão excluidas')">
                         @csrf
                         @method('DELETE')
                         <button type="submit" class="btn btn-danger btn-sm">Excluir</button>
-                    </form>
+                    </form> --}}
                 </div>
             </li>
         @endforeach

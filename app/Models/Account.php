@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Account extends Model
 {
@@ -27,9 +29,16 @@ class Account extends Model
         return $this->hasMany(Statement::class);
     }
 
-    public function latestStatement()
+    public function oldestOpenStatement(): HasOne
     {
-        return $this->hasOne(Statement::class)->oldestOfMany('opening_date')->where('status', 'open');
+        return $this->hasOne(Statement::class)->ofMany(
+            [
+                'opening_date' => 'min'
+            ],
+            function (Builder $query) {
+                $query->where('status', 'open');
+            }
+        );
     }
 
     protected static function booted()

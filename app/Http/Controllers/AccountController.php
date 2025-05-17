@@ -11,9 +11,9 @@ class AccountController extends Controller
 {
     public function index()
     {
-        $accounts = Auth::user()->accounts()
-            ->with('latestStatement')
-            ->withCount('statements')
+        $accounts = Auth::user()
+            ->accounts()
+            ->with('oldestOpenStatement')
             ->get();
         $mensagemSucesso = session('mensagem.sucesso');
 
