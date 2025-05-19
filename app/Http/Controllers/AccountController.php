@@ -6,6 +6,7 @@ use App\Http\Requests\AccountRequest;
 use App\Models\Account;
 use App\Repositories\AccountRepository;
 use App\Repositories\StatementRepository;
+use Illuminate\Support\Facades\Auth;
 
 class AccountController extends Controller
 {
@@ -14,10 +15,10 @@ class AccountController extends Controller
         $mensagemSucesso = session('mensagem.sucesso');
         $accounts = $accountRepository->getUserAccountsWithOldestOpenStatement();
 
-        $totalOpen = $statementRepository->getTotalByStatus('open');
-        $totalOverdue = $statementRepository->getTotalByStatus('overdue');
-        $totalPaid = $statementRepository->getTotalPaidThisMonth();
-        $nextDueDateFormatted = $statementRepository->getNextDueDate() ?? '-';
+        $totalOpen = $statementRepository->getTotalByStatus('open', Auth::id());
+        $totalOverdue = $statementRepository->getTotalByStatus('overdue', Auth::id());
+        $totalPaid = $statementRepository->getTotalPaidThisMonth(Auth::id());
+        $nextDueDateFormatted = $statementRepository->getNextDueDate(Auth::id()) ?? '-';
 
         return view('accounts.index', compact(
             'accounts',

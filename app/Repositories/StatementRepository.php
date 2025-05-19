@@ -5,16 +5,9 @@ namespace App\Repositories;
 use App\Models\Installment;
 use App\Models\Statement;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Auth;
 
 class StatementRepository
 {
-    protected $userId;
-
-    public function __construct()
-    {
-        $this->userId = Auth::user()->id;
-    }
     public function findOrCreateStatement($accountId, Carbon $baseDate, $closingDay, $dueDay)
     {
         $year = $baseDate->year;
@@ -72,17 +65,12 @@ class StatementRepository
         return Installment::query()
             ->join('transactions', 'installments.transaction_id', '=', 'transactions.id')
             ->where('installments.statement_id', $statement->id)
-            ->with(['transaction.creditCard', 'transaction.category']) // carrega os relacionamentos corretamente
+            ->with(['transaction.creditCard', 'transaction.category'])
             ->orderBy('transactions.date')
-            ->select('installments.*') // importante: mantém o retorno como Installment
+            ->select('installments.*')
             ->get();
     }
 
-    /**
-     * Ajusta os statements após exclusão de uma transaction.
-     *
-     * @param array<int, array{count:int, sum_amount:float}> $groupedData
-     */
     public function adjustAfterTransactionDeletion(array $groupedData): void
     {
         $statementIds = array_keys($groupedData);
@@ -103,19 +91,19 @@ class StatementRepository
         }
     }
 
-    public function getTotalByStatus(string $status)
+    public function getTotalByStatus(string $status, int $userId)
     {
-        return Statement::whereHas('account', function ($query) {
-            $query->where('user_id', $this->userId);
+        return Statement::whereHas('account', function ($query) use ($userId) {
+            $query->where('user_id', $userId);
         })
             ->where('status', $status)
             ->sum('total_amount');
     }
 
-    public function getTotalPaidThisMonth()
+    public function getTotalPaidThisMonth(int $userId)
     {
-        return Statement::whereHas('account', function ($query) {
-            $query->where('user_id', $this->userId);
+        return Statement::whereHas('account', function ($query) use ($userId) {
+            $query->where('user_id', $userId);
         })
             ->where('status', 'paid')
             ->whereMonth('payment_date', now()->month)
@@ -123,15 +111,36 @@ class StatementRepository
             ->sum('total_amount');
     }
 
-    public function getNextDueDate()
+    public function getNextDueDate(int $userId)
     {
-        $date = Statement::whereHas('account', function ($query) {
-            $query->where('user_id', $this->userId);
+        $date = Statement::whereHas('account', function ($query) use ($userId) {
+            $query->where('user_id', $userId);
         })
             ->where('status', 'open')
             ->orderBy('due_date', 'asc')
             ->value('due_date');
 
         return $date ? Carbon::parse($date)->format('d/m/Y') : null;
+    }
+
+    public function getOverdueByUser(int $userId)
+    {
+        $today = Carbon::now();
+
+        return Statement::query()
+            ->whereHas('account', fn($q) => $q->where('user_id', $userId))
+            ->where('due_date', '<', $today)
+            ->whereNotIn('status', ['paid', 'overdue'])
+            ->get();
+    }
+
+    public function checkNextCurrentStatements(int $userId)
+    {
+        return Statement::whereHas('account', function ($query) use ($userId) {
+            $query->where('user_id', $userId);
+        })
+            ->where('status', 'upcoming')
+            ->where('opening_date', '<=', now())
+            ->get();
     }
 }
