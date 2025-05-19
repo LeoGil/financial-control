@@ -1,6 +1,6 @@
 <x-layout>
-    <x-form title="Novo Cartão" maxWidth="600px">
-        <form action="{{ route('credit_cards.store') }}" method="POST">
+    <x-form title="Novo Cartão para {{ $account->name }}" maxWidth="600px">
+        <form action="{{ route('accounts.credit_cards.store', $account->id) }}" method="POST">
             @csrf
             <div class="row mb-3">
                 <div class="col-12">
@@ -17,14 +17,12 @@
                 </div>
             </div>
             <div class="row mb-3">
-                <div class="col-6">
+                {{-- <div class="col-6">
                     <label for="account_id" class="form-label">Conta</label>
-                    <select name="account_id" id="account_id" class="form-select" required>
-                        @foreach ($accounts as $account)
-                            <option value="{{ $account->id }}">{{ $account->name }}</option>
-                        @endforeach
+                    <select name="account_id" id="account_id" class="form-select" required disabled>
+                        <option value="{{ $account->id }}">{{ $account->name }}</option>
                     </select>
-                </div>
+                </div> --}}
                 <div class="col-6">
                     <label for="closing_day" class="form-label">Dia de fechamento</label>
                     <input
@@ -38,8 +36,6 @@
                         required
                     />
                 </div>
-            </div>
-            <div class="row mb-3">
                 <div class="col-6">
                     <label for="due_day" class="form-label">Dia de vencimento</label>
                     <input
@@ -53,6 +49,8 @@
                         required
                     />
                 </div>
+            </div>
+            <div class="row mb-3">
                 <div class="col-6">
                     <label for="credit_limit" class="form-label">Limite de crédito</label>
                     <input type="number"

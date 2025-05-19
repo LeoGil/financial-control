@@ -6,6 +6,7 @@ use App\Http\Requests\CreditCardRequest;
 use App\Models\Account;
 use App\Models\CreditCard;
 use App\Repositories\AccountRepository;
+use App\Repositories\CreditCardRepository;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 
@@ -20,22 +21,30 @@ class CreditCardController extends Controller
         return view('credit_cards.index', compact('creditCards', 'mensagemSucesso', 'account'));
     }
 
-    public function create(AccountRepository $accountRepository)
+    public function create(Account $account)
     {
-        $accounts = $accountRepository->getByUserId(Auth::user()->id);
-        return view('credit_cards.create', compact('accounts'));
+        Gate::authorize('creditCards', $account);
+
+        return view('credit_cards.create', compact('account'));
     }
 
-    public function store(CreditCardRequest $request)
+    public function store(CreditCardRequest $request, Account $account, CreditCardRepository $creditCardRepository)
     {
-        CreditCard::create($request->all());
+        Gate::authorize('creditCards', $account);
 
-        return redirect()->route('accounts.credit_cards.index', $request->account_id)
+        $data = $request->validated();
+        $data['account_id'] = $account->id;
+
+        $creditCardRepository->create($data);
+
+        return redirect()->route('accounts.credit_cards.index', $account->id)
             ->with('mensagem.sucesso', 'Cartão cadastrado com sucesso!');
     }
 
     public function destroy(CreditCard $creditCard)
     {
+        Gate::authorize('delete', $creditCard);
+
         $creditCard->delete();
 
         return redirect()->route('accounts.credit_cards.index', $creditCard->account_id)

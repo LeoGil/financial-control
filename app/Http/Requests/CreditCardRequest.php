@@ -39,7 +39,7 @@ class CreditCardRequest extends FormRequest
                     }
                 },
             ],
-            'account_id' => 'required|exists:accounts,id'
+            // 'account_id' => 'required|exists:accounts,id'
         ];
 
         if ($this->isMethod('put') || $this->isMethod('patch')) {
@@ -64,8 +64,8 @@ class CreditCardRequest extends FormRequest
             'due_day.max' => 'O dia de vencimento deve ser menor ou igual a :max.',
             'credit_limit.required' => 'O limite de crédito é obrigatório.',
             'credit_limit.regex' => 'Formato inválido: até 12 dígitos, com 2 casas decimais.',
-            'account_id.required' => 'O da conta é obrigatório.',
-            'account_id.exists' => 'A conta selecionada não existe.'
+            // 'account_id.required' => 'O da conta é obrigatório.',
+            // 'account_id.exists' => 'A conta selecionada não existe.'
         ];
     }
 }

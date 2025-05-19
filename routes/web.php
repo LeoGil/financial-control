@@ -26,12 +26,13 @@ Route::middleware(Authenticator::class)->group(function () {
 
     Route::resource('categories', CategoryController::class)->except(['view']);
 
-    // Remove index porque agora está sendo tratado pela rota aninhada
-    Route::resource('credit_cards', CreditCardController::class)->except(['view', 'index']);
-
+    Route::delete('credit_cards/{creditCard}', [CreditCardController::class, 'destroy'])->name('credit_cards.destroy');
+    
     // Rota aninhada para acessar os cartões de uma conta específica
     Route::prefix('accounts/{account}')->name('accounts.')->group(function () {
         Route::get('credit_cards', [CreditCardController::class, 'index'])->name('credit_cards.index');
+        Route::get('credit_cards/create', [CreditCardController::class, 'create'])->name('credit_cards.create');
+        Route::post('credit_cards', [CreditCardController::class, 'store'])->name('credit_cards.store');
         Route::get('statements', [StatementController::class, 'index'])->name('statements.index');
         Route::get('statements/{statement}/transactions', [TransactionController::class, 'index'])->name('statements.transactions');
         Route::patch('statements/{statement}/pay', [StatementController::class, 'pay'])->name('statements.pay');

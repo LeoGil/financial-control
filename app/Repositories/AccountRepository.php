@@ -7,6 +7,11 @@ use Illuminate\Support\Facades\Auth;
 
 class AccountRepository
 {
+    public function getById(int $id)
+    {
+        return Account::find($id);
+    }
+
     public function getByUserId(int $userId)
     {
         return Account::where('user_id', $userId)->get();
