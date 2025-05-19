@@ -1,26 +1,64 @@
-<x-layout title="Contas" :mensagemSucesso="$mensagemSucesso">
+<x-layout title="Dashboard de Contas" :mensagemSucesso="$mensagemSucesso">
+    {{-- Estilos customizados para efeito hover nos cards --}}
     <style>
         .card-hover {
             transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
-
         .card-hover:hover {
             transform: translateY(-5px);
-            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15); /* Bootstrap-like shadow */
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
         }
     </style>
 
-    <div class="d-flex justify-content-end mb-4">
+    {{-- Linha de cards resumo --}}
+    <div class="row mb-4">
+        <div class="col-6 col-md-3">
+            <div class="card bg-warning text-dark card-hover shadow-sm">
+                <div class="card-body">
+                    <h6 class="card-title">Total a Pagar</h6>
+                    <p class="display-6">R$ {{ number_format($totalOpen, 2, ',', '.') }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-6 col-md-3">
+            <div class="card bg-danger text-white card-hover shadow-sm">
+                <div class="card-body">
+                    <h6 class="card-title">Total Vencido</h6>
+                    <p class="display-6">R$ {{ number_format($totalOverdue, 2, ',', '.') }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-6 col-md-3">
+            <div class="card bg-success text-white card-hover shadow-sm">
+                <div class="card-body">
+                    <h6 class="card-title">Total Pago</h6>
+                    <p class="display-6">R$ {{ number_format($totalPaid, 2, ',', '.') }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-6 col-md-3">
+            <div class="card bg-info text-white card-hover shadow-sm">
+                <div class="card-body">
+                    <h6 class="card-title">Próx. Vencimento</h6>
+                    <p class="display-6">{{ $nextDueDateFormatted }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {{-- Botões de ação --}}
+    <div class="d-flex mb-4">
         <a href="{{ route('accounts.create') }}"
            class="btn btn-success btn-sm fw-bold me-2">
-            + Nova conta
+            <i class="fa-solid fa-landmark"></i> Nova conta
         </a>
         <a href="{{ route('transactions.create') }}"
            class="btn btn-danger btn-sm fw-bold">
-            + Nova transação
+            <i class="fa-solid fa-plus-minus"></i> Nova transação
         </a>
     </div>
 
+    {{-- Lista de contas --}}
     @if ($accounts->isEmpty())
         <p class="text-center text-muted fst-italic">Nenhuma conta cadastrada.</p>
     @else
@@ -47,11 +85,11 @@
                             <div class="mt-3 d-flex gap-2">
                                 <a href="{{ route('accounts.statements.index', $account->id) }}"
                                    class="btn btn-info btn-sm flex-fill">
-                                    Faturas
+                                    <i class="fa-solid fa-money-bills"></i> Faturas
                                 </a>
                                 <a href="{{ route('accounts.credit_cards.index', $account->id) }}"
                                    class="btn btn-primary btn-sm flex-fill">
-                                    Cartões
+                                    <i class="fa-solid fa-credit-card"></i> Cartões
                                 </a>
                             </div>
                         </div>

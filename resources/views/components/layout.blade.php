@@ -24,7 +24,7 @@
           @auth
           <div class="dropdown">
             <a href="#" class="d-block text-decoration-none dropdown-toggle text-light hover:text-light" data-bs-toggle="dropdown" aria-expanded="false">
-              <span class="fw-bold">{{ auth()->user()->name }}</span>
+              <i class="fa-regular fa-circle-user"></i> <span class="fw-bold">{{ auth()->user()->name }}</span>
             </a>
             <ul class="dropdown-menu text-small">
               <li>

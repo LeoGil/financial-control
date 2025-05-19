@@ -21,6 +21,7 @@
                                 'closed' => ['text-bg-secondary', 'Fechada'],
                                 'paid' => ['text-bg-success', 'Paga'],
                                 'overdue' => ['text-bg-danger', 'Vencida'],
+                                'upcoming' => ['text-bg-warning', 'Proxima'],
                                 default => ['text-bg-light', 'Desconhecido']
                             };
                         @endphp
@@ -34,7 +35,7 @@
                                     @csrf
                                     @method('PATCH')
                                     <button type="submit" class="btn btn-sm btn-success">
-                                        Pagar
+                                        <i class="fas fa-check"></i> Pagar
                                     </button>
                                 </form>
                                 @endif

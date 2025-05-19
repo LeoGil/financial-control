@@ -4,20 +4,29 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\AccountRequest;
 use App\Models\Account;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use App\Repositories\AccountRepository;
+use App\Repositories\StatementRepository;
 
 class AccountController extends Controller
 {
-    public function index()
+    public function index(AccountRepository $accountRepository, StatementRepository $statementRepository)
     {
-        $accounts = Auth::user()
-            ->accounts()
-            ->with('oldestOpenStatement')
-            ->get();
         $mensagemSucesso = session('mensagem.sucesso');
+        $accounts = $accountRepository->getUserAccountsWithOldestOpenStatement();
 
-        return view('accounts.index', compact('accounts', 'mensagemSucesso'));
+        $totalOpen = $statementRepository->getTotalByStatus('open');
+        $totalOverdue = $statementRepository->getTotalByStatus('overdue');
+        $totalPaid = $statementRepository->getTotalPaidThisMonth();
+        $nextDueDateFormatted = $statementRepository->getNextDueDate() ?? '-';
+
+        return view('accounts.index', compact(
+            'accounts',
+            'mensagemSucesso',
+            'totalOpen',
+            'totalOverdue',
+            'totalPaid',
+            'nextDueDateFormatted'
+        ));
     }
 
     public function create()

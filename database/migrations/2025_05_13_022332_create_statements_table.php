@@ -19,7 +19,7 @@ return new class extends Migration
             $table->date('due_date');
             $table->date('payment_date')->nullable();
             $table->decimal('total_amount', 12, 2);
-            $table->enum('status', ['open', 'closed', 'paid', 'overdue'])->default('open');
+            $table->enum('status', ['upcoming', 'open', 'closed', 'paid', 'overdue'])->default('open');
             $table->timestamps();
         });
     }

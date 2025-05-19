@@ -5,9 +5,16 @@ namespace App\Repositories;
 use App\Models\Installment;
 use App\Models\Statement;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class StatementRepository
 {
+    protected $userId;
+
+    public function __construct()
+    {
+        $this->userId = Auth::user()->id;
+    }
     public function findOrCreateStatement($accountId, Carbon $baseDate, $closingDay, $dueDay)
     {
         $year = $baseDate->year;
@@ -26,13 +33,24 @@ class StatementRepository
         $openingDate = $closingDate->copy()->subMonth()->addDay();
         $dueDate = Carbon::create($year, $month, $dueDay)->endOfDay();
 
+        $now = now();
+        $status = 'upcoming';
+
+        if ($now->between($openingDate, $closingDate)) {
+            $status = 'open';
+        } elseif ($now->greaterThan($closingDate) && $now->lessThanOrEqualTo($dueDate)) {
+            $status = 'closed';
+        } elseif ($now->greaterThan($dueDate)) {
+            $status = 'overdue';
+        }
+
         return Statement::create([
             'account_id' => $accountId,
             'opening_date' => $openingDate,
             'closing_date' => $closingDate,
             'due_date' => $dueDate,
             'total_amount' => 0,
-            'status' => $dueDate->isPast() ? 'paid' : 'open',
+            'status' => $status,
         ]);
     }
 
@@ -52,12 +70,12 @@ class StatementRepository
     public function getInstallments(Statement $statement)
     {
         return Installment::query()
-        ->join('transactions', 'installments.transaction_id', '=', 'transactions.id')
-        ->where('installments.statement_id', $statement->id)
-        ->with(['transaction.creditCard']) // carrega os relacionamentos corretamente
-        ->orderBy('transactions.date')
-        ->select('installments.*') // importante: mantém o retorno como Installment
-        ->get();
+            ->join('transactions', 'installments.transaction_id', '=', 'transactions.id')
+            ->where('installments.statement_id', $statement->id)
+            ->with(['transaction.creditCard', 'transaction.category']) // carrega os relacionamentos corretamente
+            ->orderBy('transactions.date')
+            ->select('installments.*') // importante: mantém o retorno como Installment
+            ->get();
     }
 
     /**
@@ -83,5 +101,37 @@ class StatementRepository
                 $statement->decrement('total_amount', $txData['sum_amount']);
             }
         }
+    }
+
+    public function getTotalByStatus(string $status)
+    {
+        return Statement::whereHas('account', function ($query) {
+            $query->where('user_id', $this->userId);
+        })
+            ->where('status', $status)
+            ->sum('total_amount');
+    }
+
+    public function getTotalPaidThisMonth()
+    {
+        return Statement::whereHas('account', function ($query) {
+            $query->where('user_id', $this->userId);
+        })
+            ->where('status', 'paid')
+            ->whereMonth('payment_date', now()->month)
+            ->whereYear('payment_date', now()->year)
+            ->sum('total_amount');
+    }
+
+    public function getNextDueDate()
+    {
+        $date = Statement::whereHas('account', function ($query) {
+            $query->where('user_id', $this->userId);
+        })
+            ->where('status', 'open')
+            ->orderBy('due_date', 'asc')
+            ->value('due_date');
+
+        return $date ? Carbon::parse($date)->format('d/m/Y') : null;
     }
 }
