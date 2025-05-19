@@ -18,4 +18,9 @@ class CreditCard extends Model
     {
         return $this->belongsTo(Account::class);
     }
+
+    public function transactions()
+    {
+        return $this->hasMany(Transaction::class);
+    }
 }

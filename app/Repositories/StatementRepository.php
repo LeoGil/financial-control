@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Models\Installment;
 use App\Models\Statement;
 use Carbon\Carbon;
 
@@ -31,7 +32,7 @@ class StatementRepository
             'closing_date' => $closingDate,
             'due_date' => $dueDate,
             'total_amount' => 0,
-            'status' => $dueDate->isPast() ? 'overdue' : 'open',
+            'status' => $dueDate->isPast() ? 'paid' : 'open',
         ]);
     }
 
@@ -50,7 +51,13 @@ class StatementRepository
 
     public function getInstallments(Statement $statement)
     {
-        return $statement->installments()->with('transaction')->orderBy('created_at')->get();
+        return Installment::query()
+        ->join('transactions', 'installments.transaction_id', '=', 'transactions.id')
+        ->where('installments.statement_id', $statement->id)
+        ->with(['transaction.creditCard']) // carrega os relacionamentos corretamente
+        ->orderBy('transactions.date')
+        ->select('installments.*') // importante: mantém o retorno como Installment
+        ->get();
     }
 
     /**

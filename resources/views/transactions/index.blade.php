@@ -9,6 +9,7 @@
             <thead class="table-light">
                 <tr>
                     <th>Nome</th>
+                    <th>Cartão</th>
                     <th>Data</th>
                     <th>Valor</th>
                     <th class="text-center">Ações</th>
@@ -18,6 +19,7 @@
                 @foreach ($installments as $installment)
                     <tr>
                         <td>{{ $installment->transaction->name }} ({{ $installment->installment_number }}/{{ $installment->installment_total }})</td>
+                        <td>{{ $installment->transaction->creditCard->name }}</td>
                         <td>{{ $installment->transaction->date->format('d/m/Y') }}</td>
                         <td><strong>R${{ number_format($installment->amount, 2, ',', '.') }}</strong></td>
                         <td class="text-center">
