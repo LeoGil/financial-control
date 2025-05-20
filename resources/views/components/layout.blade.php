@@ -40,7 +40,7 @@
                 <a class="dropdown-item" href="#">Relatórios</a>
               </li>
               <li>
-                <a class="dropdown-item" href="#">Todas trasações</a>
+                <a class="dropdown-item" href="{{ route('transactions.index') }}">Todas trasações</a>
               </li>
               <li>
                 <hr class="dropdown-divider">

@@ -12,7 +12,7 @@ class StatementController extends Controller
     public function index(Account $account)
     {
         Gate::authorize('statements', $account);
-        $statements = $account->statements()->orderBy('opening_date')->get();
+        $statements = $account->statements()->orderByDesc('opening_date')->get();
         $mensagemSucesso = session('mensagem.sucesso');
 
         return view('statements.index', compact('statements', 'mensagemSucesso'));

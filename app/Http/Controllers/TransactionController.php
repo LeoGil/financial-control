@@ -6,6 +6,7 @@ use App\Http\Requests\TransactionRequest;
 use App\Models\Account;
 use App\Models\Statement;
 use App\Models\Transaction;
+use App\Models\User;
 use App\Repositories\BudgetCategoryRepository;
 use App\Repositories\CategoryRepository;
 use App\Repositories\CreditCardRepository;
@@ -17,15 +18,13 @@ use Illuminate\Support\Facades\Auth;
 
 class TransactionController extends Controller
 {
-    public function index(Account $account, Statement $statement, StatementRepository $statementRepository)
+    public function index(TransactionRepository $transactionRepository)
     {
-        Gate::authorize('statements', $account);
-
-        $installments = $statementRepository->getInstallments($statement);
+        $transactions = $transactionRepository->getByUserId(Auth::id());
 
         $mensagemSucesso = session('mensagem.sucesso');
 
-        return view('transactions.index', compact('installments', 'account', 'mensagemSucesso'));
+        return view('transactions.index', compact('transactions', 'mensagemSucesso'));
     }
 
     public function create(
@@ -50,17 +49,13 @@ class TransactionController extends Controller
         return redirect()->route('transactions.create');
     }
 
-    public function destroy(
-        Account $account,
-        Transaction $transaction,
-        TransactionService $service
-    ) {
-        Gate::authorize('statements', $account);
+    public function destroy(Transaction $transaction, TransactionService $service)
+    {
+        Gate::authorize('destroy', $transaction);
 
         $service->destroy($transaction);
 
         return redirect()
-            ->route('accounts.statements.index', $account)
-            ->with('mensagem.sucesso', 'Transação excluída com sucesso!');
+            ->route('transactions.index')->with('mensagem.sucesso', 'Transação excluída com sucesso!');
     }
 }

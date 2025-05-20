@@ -66,7 +66,7 @@ class StatementRepository
             ->join('transactions', 'installments.transaction_id', '=', 'transactions.id')
             ->where('installments.statement_id', $statement->id)
             ->with(['transaction.creditCard', 'transaction.category'])
-            ->orderBy('transactions.date')
+            ->orderByDesc('transactions.date')
             ->select('installments.*')
             ->get();
     }

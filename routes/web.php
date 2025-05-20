@@ -7,6 +7,7 @@ use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\InstallmentController;
 use App\Http\Middleware\Authenticator;
 use Illuminate\Support\Facades\Route;
 
@@ -22,7 +23,7 @@ Route::middleware(Authenticator::class)->group(function () {
         return redirect('/accounts');
     });
 
-    Route::resource('transactions', TransactionController::class)->only(['create', 'store']);
+    Route::resource('transactions', TransactionController::class)->only(['create', 'store', 'index', 'destroy']);
 
     Route::resource('categories', CategoryController::class)->except(['view']);
 
@@ -34,9 +35,8 @@ Route::middleware(Authenticator::class)->group(function () {
         Route::get('credit_cards/create', [CreditCardController::class, 'create'])->name('credit_cards.create');
         Route::post('credit_cards', [CreditCardController::class, 'store'])->name('credit_cards.store');
         Route::get('statements', [StatementController::class, 'index'])->name('statements.index');
-        Route::get('statements/{statement}/transactions', [TransactionController::class, 'index'])->name('statements.transactions');
+        Route::get('statements/{statement}/installments', [InstallmentController::class, 'index'])->name('statements.installments.index');
         Route::patch('statements/{statement}/pay', [StatementController::class, 'pay'])->name('statements.pay');
-        Route::delete('statements/installments/transactions/{transaction}', [TransactionController::class, 'destroy'])->name('statements.installments.transactions.destroy');
     });
 
     Route::resource('accounts', AccountController::class)->except(['view']);

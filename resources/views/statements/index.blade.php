@@ -39,7 +39,7 @@
                                     </button>
                                 </form>
                                 @endif
-                                <a href="{{ route('accounts.statements.transactions', [$statement->account_id, $statement->id]) }}" class="btn btn-sm btn-primary">Transações</a>
+                                <a href="{{ route('accounts.statements.installments.index', [$statement->account_id, $statement->id]) }}" class="btn btn-sm btn-primary">Transações</a>
                                 <!-- outros botões se necessário -->
                             </td>
                         </tr>
