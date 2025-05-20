@@ -1,9 +1,18 @@
 <x-layout title="Todas as transações" :mensagemSucesso="$mensagemSucesso">
-    {{-- <a href="{{ route('accounts.create') }}" class="btn btn-success btn-sm fw-bold mb-3">Nova conta</a> --}}
+    <div class="d-flex justify-content-between align-items-center mt-3">
+        <a href="{{ route('accounts.index') }}" class="btn btn-sm btn-secondary">Voltar para contas</a>
+
+        <form action="{{ route('transactions.index') }}" method="GET" class="d-flex" role="search">
+            <input type="text" name="search" class="form-control form-control-sm me-2" 
+                placeholder="Buscar transação..." value="{{ $search }}">
+            <button type="submit" class="btn btn-sm btn-primary">
+                <i class="bi bi-search"></i> Buscar
+            </button>
+        </form>
+    </div>
     @if ($transactions->isEmpty())
     <p class="text-center text-muted"><i>Nenhuma transação cadastrada.</i></p>
     @else
-    <a href="{{ route('accounts.index') }}" class="btn btn-sm btn-secondary">Voltar para contas</a>
     <div class="table-responsive">
         <table class="table table-bordered table-hover align-middle mt-3">
             <thead class="table-light">
@@ -11,6 +20,7 @@
                     <th>Nome</th>
                     <th>Data</th>
                     <th>Cartão</th>
+                    <th>Parcelas</th>
                     <th>Categoria</th>
                     <th>Valor</th>
                     <th class="text-center">Ações</th>
@@ -22,6 +32,7 @@
                         <td>{{ $transaction->name }}</td>
                         <td>{{ $transaction->date->format('d/m/Y') }}</td>
                         <td>{{ $transaction->creditCard->name }}</td>
+                        <td>{{ $transaction->installments->count() }}</td>
                         <td>{{ $transaction->category->name }}</td>
                         <td><strong>R${{ number_format($transaction->amount, 2, ',', '.') }}</strong></td>
                         <td class="text-center">
@@ -40,7 +51,7 @@
             </tbody>
         </table>
         <div class="mt-3">
-            {{ $transactions->links() }}
+            {{ $transactions->appends(['search' => $search])->links() }}
         </div>
     </div>
     @endif

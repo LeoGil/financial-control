@@ -20,11 +20,12 @@ class TransactionController extends Controller
 {
     public function index(TransactionRepository $transactionRepository)
     {
-        $transactions = $transactionRepository->getByUserId(Auth::id());
+        $search = request('search');
+        $transactions = $transactionRepository->getByUserId(Auth::id(), 10, $search);
 
         $mensagemSucesso = session('mensagem.sucesso');
 
-        return view('transactions.index', compact('transactions', 'mensagemSucesso'));
+        return view('transactions.index', compact('transactions', 'mensagemSucesso', 'search'));
     }
 
     public function create(
