@@ -49,11 +49,11 @@
     {{-- Botões de ação --}}
     <div class="d-flex mb-4">
         <a href="{{ route('accounts.create') }}"
-           class="btn btn-success btn-sm fw-bold me-2">
+           class="btn btn-success btn-sm me-2">
             <i class="fa-solid fa-landmark"></i> Nova conta
         </a>
         <a href="{{ route('transactions.create') }}"
-           class="btn btn-danger btn-sm fw-bold">
+           class="btn btn-danger btn-sm">
             <i class="fa-solid fa-plus-minus"></i> Nova transação
         </a>
     </div>

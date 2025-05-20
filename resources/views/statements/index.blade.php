@@ -28,7 +28,7 @@
                         <tr>
                             <td><strong>R${{ number_format($statement->total_amount, 2, ',', '.') }}</strong></td>
                             <td>{{ $statement->due_date->format('d/m/Y') }}</td>
-                            <td><span class="badge {{ $badgeData[0] }}">{{ $badgeData[1] }}</span></td>
+                            <td><span class="badge fw-light {{ $badgeData[0] }}">{{ $badgeData[1] }}</span></td>
                             <td class="text-center">
                                 @if ($statement->status !== 'paid')
                                 <form action="{{ route('accounts.statements.pay', [$statement->account_id, $statement->id]) }}" method="POST" class="d-inline" onsubmit="return confirm('Deseja realmente pagar essa fatura?')">
