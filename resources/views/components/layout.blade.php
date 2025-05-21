@@ -14,8 +14,8 @@
   @auth
   <aside class="sidebar bg-white border-end d-flex flex-column p-3">
     <a href="/" class="d-flex align-items-center mb-4 text-decoration-none">
-      <i class="fa-2x fa-regular fa-circle-user me-2 text-primary"></i>
-      <span class="fs-4 fw-bold">Financeiro</span>
+      <i class="fa-2x fa-regular fa-dollar-sign me-2 text-primary"></i>
+      <span class="fs-4 fw-bold">FinTrak</span>
     </a>
 
     <ul class="nav nav-pills flex-column mb-auto">

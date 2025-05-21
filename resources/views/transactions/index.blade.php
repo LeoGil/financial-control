@@ -1,6 +1,6 @@
 <x-layout title="Todas as transações" :mensagemSucesso="$mensagemSucesso">
     <div class="d-flex justify-content-between align-items-center mt-3">
-        <a href="{{ route('accounts.index') }}" class="btn btn-sm btn-secondary">Voltar para contas</a>
+        <a href="{{ route('accounts.index') }}" class="btn btn-sm btn-outline-secondary">Voltar para contas</a>
 
         <form action="{{ route('transactions.index') }}" method="GET" class="d-flex" role="search">
             <input type="text" name="search" class="form-control form-control-sm me-2" 
