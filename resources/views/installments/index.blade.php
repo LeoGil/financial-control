@@ -25,7 +25,7 @@
                         <td><strong>R${{ number_format($installment->amount, 2, ',', '.') }}</strong></td>
                         <td class="text-center">
                             <a href="#" class="btn btn-sm btn-warning">Editar</a>
-                            <form action="{{ route('accounts.statements.installments.transactions.destroy', [$account->id, $installment->transaction_id]) }}" method="POST" class="d-inline" onsubmit="return confirm('Deseja realmente excluir essa transação? Todas as faturas e parcelas vinculadas a essa transação serão excluidas')">
+                            <form action="{{ route('transactions.destroy', $installment->transaction->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Deseja realmente excluir essa transação? Todas as faturas e parcelas vinculadas a essa transação serão excluidas')">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-sm btn-danger">
