@@ -15,7 +15,7 @@
   <aside class="sidebar bg-white border-end d-flex flex-column p-3">
     <a href="/" class="d-flex align-items-center mb-4 text-decoration-none">
       <i class="fa-2x fa-regular fa-dollar-sign me-2 text-primary"></i>
-      <span class="fs-4 fw-bold">FinTrak</span>
+      <span class="fs-4 fw-bold">Financial Control</span>
     </a>
 
     <ul class="nav nav-pills flex-column mb-auto">
@@ -29,6 +29,12 @@
         <a href="{{ route('categories.index') }}"
            class="nav-link text-dark {{ request()->routeIs('categories.*') ? 'active' : '' }}">
           <i class="fa fa-tags me-2"></i>Categorias
+        </a>
+      </li>
+      <li class="nav-item mb-1">
+        <a href="#"
+           class="nav-link text-dark">
+          <i class="fa fa-chart-line me-2"></i>Relatórios
         </a>
       </li>
       <li class="nav-item mb-1">

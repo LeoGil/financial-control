@@ -1,10 +1,9 @@
 <x-layout title="Categorias" :mensagemSucesso="$mensagemSucesso">
-    <a href="{{ route('categories.create') }}" class="btn btn-success btn-sm">Nova categoria</a>
+    <a href="{{ route('categories.create') }}" class="btn btn-outline-success btn-sm">Nova categoria</a>
     @if ($categories->isEmpty())
     <!-- outros botões se necessário -->
     <p class="text-center text-muted"><i>Nenhuma categoria cadastrada.</i></p>
     @else
-    <a href="{{ route('accounts.index') }}" class="btn btn-sm btn-secondary">Voltar para contas</a>
     <div class="table-responsive">
         <table class="table table-bordered table-hover align-middle mt-3">
             <thead class="table-light">

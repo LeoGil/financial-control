@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Models\Account;
 use App\Models\Installment;
 use App\Models\Statement;
 use Carbon\Carbon;
@@ -142,5 +143,9 @@ class StatementRepository
             ->where('status', 'upcoming')
             ->where('opening_date', '<=', now())
             ->get();
+    }
+
+    public function getByAccount(Account $account, int $perPage = 12) {
+        return $account->statements()->orderByDesc('opening_date')->paginate($perPage);
     }
 }

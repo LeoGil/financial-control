@@ -9,10 +9,10 @@ use Illuminate\Support\Facades\Gate;
 
 class StatementController extends Controller
 {
-    public function index(Account $account)
+    public function index(Account $account, StatementRepository $statementRepository)
     {
         Gate::authorize('statements', $account);
-        $statements = $account->statements()->orderByDesc('opening_date')->get();
+        $statements = $statementRepository->getByAccount($account);
         $mensagemSucesso = session('mensagem.sucesso');
 
         return view('statements.index', compact('statements', 'mensagemSucesso'));
