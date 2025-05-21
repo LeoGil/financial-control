@@ -1,87 +1,84 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Controle Financeiro</title>
-    
-    <link rel="preconnect" href="https://fonts.bunny.net">
-    <link href="https://fonts.googleapis.com/css?family=Lato&display=swap" rel="stylesheet" />
-
-    @vite(['resources/sass/app.scss', 'resources/js/app.js'])
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Controle Financeiro</title>
+  @vite(['resources/sass/app.scss', 'resources/js/app.js'])
+  <link rel="preconnect" href="https://fonts.bunny.net">
+  <link href="https://fonts.googleapis.com/css?family=Lato&display=swap" rel="stylesheet">
 </head>
-<body class="bg-light mb-5">
-  <header class="p-3 text-bg-dark">
-    <div class="container">
-      <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start fw-bold">
-        <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-          <li>
-            <a href="/" class="nav-link px-0 text-white"><i>Financial Control</i></a>
-          </li>
-        </ul>
-        <div class="d-flex gap-2 text-end">
-          @auth
-          <div class="dropdown">
-            <a href="#" class="d-block text-decoration-none dropdown-toggle text-light hover:text-light" data-bs-toggle="dropdown" aria-expanded="false">
-              <i class="fa-regular fa-circle-user"></i> <span class="fw-bold">{{ auth()->user()->name }}</span>
-            </a>
-            <ul class="dropdown-menu text-small">
-              <li>
-                <a class="dropdown-item" href="{{ route('accounts.index') }}">Contas</a>
-              </li>
-              <li>
-                <a class="dropdown-item" href="{{ route('categories.index') }}">Categorias</a>
-              </li>
-              <li>
-                <a class="dropdown-item" href="#">Orçamentos</a>
-              </li>
-              <li>
-                <a class="dropdown-item" href="#">Relatórios</a>
-              </li>
-              <li>
-                <a class="dropdown-item" href="{{ route('transactions.index') }}">Todas trasações</a>
-              </li>
-              <li>
-                <hr class="dropdown-divider">
-              </li>
-              <li>
-                <form action="{{ route('login.logout') }}" method="POST">
-                  @csrf
-                  <button type="submit" class="dropdown-item border-0 w-100 text-start">
-                    Logout
-                  </button>
-                </form>
-              </li>
-            </ul>
-          </div>
-          @endauth
-        </div>
-      </div>
+<body class="d-flex bg-light">
+
+  {{-- SIDEBAR --}}
+  @auth
+  <aside class="sidebar bg-white border-end d-flex flex-column p-3">
+    <a href="/" class="d-flex align-items-center mb-4 text-decoration-none">
+      <i class="fa-2x fa-regular fa-circle-user me-2 text-primary"></i>
+      <span class="fs-4 fw-bold">Financeiro</span>
+    </a>
+
+    <ul class="nav nav-pills flex-column mb-auto">
+      <li class="nav-item mb-1">
+        <a href="{{ route('accounts.index') }}"
+           class="nav-link text-dark {{ request()->routeIs('accounts.*') ? 'active' : '' }}">
+          <i class="fa fa-wallet me-2"></i>Contas
+        </a>
+      </li>
+      <li class="nav-item mb-1">
+        <a href="{{ route('categories.index') }}"
+           class="nav-link text-dark {{ request()->routeIs('categories.*') ? 'active' : '' }}">
+          <i class="fa fa-tags me-2"></i>Categorias
+        </a>
+      </li>
+      <li class="nav-item mb-1">
+        <a href="{{ route('transactions.index') }}"
+           class="nav-link text-dark {{ request()->routeIs('transactions.*') ? 'active' : '' }}">
+          <i class="fa fa-list-alt me-2"></i>Transações
+        </a>
+      </li>
+    </ul>
+
+    {{-- Logout fixo no fim --}}
+    <div class="mt-auto pt-3 border-top">
+      <form action="{{ route('login.logout') }}" method="POST" class="w-100">
+        @csrf
+        <button type="submit" class="btn btn-outline-danger w-100">
+          <i class="fa fa-sign-out-alt me-2"></i>Logout
+        </button>
+      </form>
     </div>
-  </header>
-  <div class="container">
-      <h3 class="my-3">
-        @isset($title)
-          {{ $title }}
-        @endisset
-      </h3>
-      @isset($mensagemSucesso)
-          <div class="alert alert-success" role="alert">
-              {{ $mensagemSucesso }}
-          </div>
-      @endisset
-      @if ($errors->any())
-          <div class="alert alert-danger">
-              <ul>
-                  @foreach ($errors->all() as $error)
-                      <li>{{ $error }}</li>
-                  @endforeach
-              </ul>
-          </div>
-      @endif
-      {{ $slot }}
+  </aside>
+  @endauth
+
+  {{-- CONTEÚDO PRINCIPAL --}}
+  <div class="flex-grow-1 p-4">
+    <header class="d-flex justify-content-between align-items-center mb-4">
+      <h3 class="m-0">{{ $title ?? '' }}</h3>
+      <div>
+        @auth
+          <span class="me-2"><i class="fa-regular fa-circle-user"></i> {{ auth()->user()->name }}</span>
+        @endauth
+      </div>
+    </header>
+
+    @if (session('mensagemSucesso'))
+      <div class="alert alert-success">
+        {{ session('mensagemSucesso') }}
+      </div>
+    @endif
+
+    @if ($errors->any())
+      <div class="alert alert-danger">
+        <ul class="mb-0">
+          @foreach ($errors->all() as $error)
+            <li>{{ $error }}</li>
+          @endforeach
+        </ul>
+      </div>
+    @endif
+
+    {{ $slot }}
   </div>
 </body>
-
 </html>
