@@ -16,7 +16,7 @@ class TransactionRepository
                 $query->where('transactions.name', 'like', '%' . $search . '%');
             })
             ->with('category')
-            ->with('installments')
+            ->withCount('installments')
             ->with('creditCard')
             ->orderBy('date', 'desc')
             ->paginate($perPage)

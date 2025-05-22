@@ -1,4 +1,4 @@
-<x-layout title="Todas as transações" :mensagemSucesso="$mensagemSucesso">
+<x-layout title="Todas as transações">
     <div class="d-flex justify-content-between align-items-center mt-3">
         <form action="{{ route('transactions.index') }}" method="GET" class="d-flex" role="search">
             <input type="text" name="search" class="form-control form-control-sm me-2" 
@@ -30,7 +30,7 @@
                         <td>{{ $transaction->name }}</td>
                         <td>{{ $transaction->date->format('d/m/Y') }}</td>
                         <td>{{ $transaction->creditCard->name }}</td>
-                        <td>{{ $transaction->installments->count() }}</td>
+                        <td>{{ $transaction->installments_count }}</td>
                         <td>{{ $transaction->category->name }}</td>
                         <td><strong>R${{ number_format($transaction->amount, 2, ',', '.') }}</strong></td>
                         <td class="text-center">

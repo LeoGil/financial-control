@@ -10,9 +10,8 @@ class CategoryController extends Controller
 {
     public function index(CategoryRepository $categoryRepository)
     {
-        $mensagemSucesso = session('mensagem.sucesso');
         $categories = $categoryRepository->getByUserId(Auth::user()->id);
 
-        return view('categories.index', compact('categories', 'mensagemSucesso'));
+        return view('categories.index', compact('categories'));
     }
 }

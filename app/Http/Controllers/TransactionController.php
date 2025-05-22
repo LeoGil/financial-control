@@ -23,9 +23,7 @@ class TransactionController extends Controller
         $search = request('search');
         $transactions = $transactionRepository->getByUserId(Auth::id(), 10, $search);
 
-        $mensagemSucesso = session('mensagem.sucesso');
-
-        return view('transactions.index', compact('transactions', 'mensagemSucesso', 'search'));
+        return view('transactions.index', compact('transactions', 'search'));
     }
 
     public function create(
@@ -47,7 +45,8 @@ class TransactionController extends Controller
         $data = $request->validated();
         $service->store($data);
 
-        return redirect()->route('transactions.create');
+        return redirect()->route('transactions.create')
+            ->with('successMessage', 'Transação cadastrada com sucesso!');
     }
 
     public function destroy(Transaction $transaction, TransactionService $service)
@@ -57,6 +56,6 @@ class TransactionController extends Controller
         $service->destroy($transaction);
 
         return redirect()
-            ->route('transactions.index')->with('mensagem.sucesso', 'Transação excluída com sucesso!');
+            ->route('transactions.index')->with('successMessage', 'Transação excluída com sucesso!');
     }
 }

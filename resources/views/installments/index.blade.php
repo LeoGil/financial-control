@@ -1,4 +1,4 @@
-<x-layout title="Transações" :mensagemSucesso="$mensagemSucesso">
+<x-layout title="Transações">
     @if ($installments->isEmpty())
     <p class="text-center text-muted"><i>Nenhuma transação cadastrada.</i></p>
     @else

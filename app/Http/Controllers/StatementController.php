@@ -13,9 +13,8 @@ class StatementController extends Controller
     {
         Gate::authorize('statements', $account);
         $statements = $statementRepository->getByAccount($account);
-        $mensagemSucesso = session('mensagem.sucesso');
 
-        return view('statements.index', compact('statements', 'mensagemSucesso'));
+        return view('statements.index', compact('statements'));
     }
 
     public function pay(Account $account, Statement $statement, StatementRepository $statementRepository)
@@ -24,6 +23,6 @@ class StatementController extends Controller
 
         $statementRepository->pay($statement);
 
-        return redirect()->route('accounts.statements.index', $account)->with('mensagem.sucesso', 'Conta paga com sucesso!');
+        return redirect()->route('accounts.statements.index', $account)->with('successMessage', 'Conta paga com sucesso!');
     }
 }

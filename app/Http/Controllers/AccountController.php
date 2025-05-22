@@ -12,7 +12,6 @@ class AccountController extends Controller
 {
     public function index(AccountRepository $accountRepository, StatementRepository $statementRepository)
     {
-        $mensagemSucesso = session('mensagem.sucesso');
         $accounts = $accountRepository->getUserAccountsWithOldestOpenStatement();
 
         $totalOpen = $statementRepository->getTotalByStatus('open', Auth::id());
@@ -22,7 +21,6 @@ class AccountController extends Controller
 
         return view('accounts.index', compact(
             'accounts',
-            'mensagemSucesso',
             'totalOpen',
             'totalOverdue',
             'totalPaid',
@@ -42,6 +40,6 @@ class AccountController extends Controller
         Account::create($data);
 
         return redirect()->route('accounts.index')
-            ->with('mensagem.sucesso', 'Conta cadastrada com sucesso!');
+            ->with('successMessage', 'Conta cadastrada com sucesso!');
     }
 }

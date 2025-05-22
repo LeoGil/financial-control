@@ -1,4 +1,4 @@
-<x-layout title="Categorias" :mensagemSucesso="$mensagemSucesso">
+<x-layout title="Categorias">
     <a href="{{ route('categories.create') }}" class="btn btn-outline-success btn-sm">Nova categoria</a>
     @if ($categories->isEmpty())
     <!-- outros botões se necessário -->

@@ -16,9 +16,8 @@ class CreditCardController extends Controller
     {
         Gate::authorize('creditCards', $account);
         $creditCards = $account->creditCards;
-        $mensagemSucesso = session('mensagem.sucesso');
 
-        return view('credit_cards.index', compact('creditCards', 'mensagemSucesso', 'account'));
+        return view('credit_cards.index', compact('creditCards', 'account'));
     }
 
     public function create(Account $account)
@@ -38,7 +37,7 @@ class CreditCardController extends Controller
         $creditCardRepository->create($data);
 
         return redirect()->route('accounts.credit_cards.index', $account->id)
-            ->with('mensagem.sucesso', 'Cartão cadastrado com sucesso!');
+            ->with('successMessage', 'Cartão cadastrado com sucesso!');
     }
 
     public function destroy(CreditCard $creditCard)
@@ -48,6 +47,6 @@ class CreditCardController extends Controller
         $creditCard->delete();
 
         return redirect()->route('accounts.credit_cards.index', $creditCard->account_id)
-            ->with('mensagem.sucesso', 'Cartão excluido com sucesso!');
+            ->with('successMessage', 'Cartão excluido com sucesso!');
     }
 }

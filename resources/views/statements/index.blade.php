@@ -1,4 +1,4 @@
-<x-layout title="Faturas" :mensagemSucesso="$mensagemSucesso">
+<x-layout title="Faturas">
     @if ($statements->isEmpty())
         <p class="text-center text-muted"><i>Nenhuma fatura cadastrada.</i></p>
     @else

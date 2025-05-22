@@ -1,4 +1,4 @@
-<x-layout title="Dashboard de Contas" :mensagemSucesso="$mensagemSucesso">
+<x-layout title="Dashboard de Contas">
 
   {{-- Cards Resumo --}}
   <div class="row g-3 mb-4">

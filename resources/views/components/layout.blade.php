@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Controle Financeiro</title>
+  <title>{{ config('app.name') }}</title>
   @vite(['resources/sass/app.scss', 'resources/js/app.js'])
 </head>
 <body class="d-flex bg-light">
@@ -13,7 +13,7 @@
   <aside class="sidebar bg-white border-end d-flex flex-column p-3">
     <a href="/" class="d-flex align-items-center mb-4 text-decoration-none">
       <i class="fa-2x fa-regular fa-dollar-sign me-2 text-primary"></i>
-      <span class="fs-5 fw-bold">Financial Control</span>
+      <span class="fs-5 fw-bold">{{ config('app.name') }}</span>
     </a>
 
     <ul class="nav nav-pills flex-column mb-auto">
@@ -71,9 +71,9 @@
       </div>
     </header>
 
-    @if (session('mensagemSucesso'))
+    @if (session('successMessage'))
       <div class="alert alert-success">
-        {{ session('mensagemSucesso') }}
+        {{ session('successMessage') }}
       </div>
     @endif
 
