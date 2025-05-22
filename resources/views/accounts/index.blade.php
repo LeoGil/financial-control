@@ -27,7 +27,7 @@
   <div class="my-3 d-flex flex-column flex-sm-row gap-2">
     <div class="btn-group mb-2">
       <a href="{{ route('accounts.create') }}" class="btn btn-outline-success btn-sm">
-        <i class="fa-solid fa-landmark"></i> Nova conta
+        <i class="fa-solid fa-landmark"></i> Nova conta bancária
       </a>
       <a href="{{ route('transactions.create') }}" class="btn btn-outline-danger btn-sm">
         <i class="fa-solid fa-plus-minus"></i> Nova transação

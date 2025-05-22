@@ -25,7 +25,7 @@
       <li class="nav-item mb-1">
         <a href="{{ route('accounts.index') }}"
            class="nav-link text-dark {{ request()->routeIs('accounts.*') ? 'active' : '' }}">
-          <i class="fa fa-wallet me-2"></i>Contas
+          <i class="fa fa-landmark me-2"></i>Contas bancárias
         </a>
       </li>
       <li class="nav-item mb-1">
