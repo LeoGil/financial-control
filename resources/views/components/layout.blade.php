@@ -5,8 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Controle Financeiro</title>
   @vite(['resources/sass/app.scss', 'resources/js/app.js'])
-  <link rel="preconnect" href="https://fonts.bunny.net">
-  <link href="https://fonts.googleapis.com/css?family=Lato&display=swap" rel="stylesheet">
 </head>
 <body class="d-flex bg-light">
 
@@ -15,10 +13,15 @@
   <aside class="sidebar bg-white border-end d-flex flex-column p-3">
     <a href="/" class="d-flex align-items-center mb-4 text-decoration-none">
       <i class="fa-2x fa-regular fa-dollar-sign me-2 text-primary"></i>
-      <span class="fs-4 fw-bold">Financial Control</span>
+      <span class="fs-5 fw-bold">Financial Control</span>
     </a>
 
     <ul class="nav nav-pills flex-column mb-auto">
+      <li class="nav-item mb-1">
+        <a href="#" class="nav-link text-dark">
+          <i class="fa fa-gear me-2"></i>Configurações
+        </a>
+      </li>
       <li class="nav-item mb-1">
         <a href="{{ route('accounts.index') }}"
            class="nav-link text-dark {{ request()->routeIs('accounts.*') ? 'active' : '' }}">
@@ -32,8 +35,8 @@
         </a>
       </li>
       <li class="nav-item mb-1">
-        <a href="#"
-           class="nav-link text-dark">
+        <a href="{{ route('reports.index') }}"
+           class="nav-link text-dark {{ request()->routeIs('reports.*') ? 'active' : '' }}">
           <i class="fa fa-chart-line me-2"></i>Relatórios
         </a>
       </li>

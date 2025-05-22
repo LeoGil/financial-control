@@ -8,6 +8,7 @@ use App\Http\Controllers\UsersController;
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\InstallmentController;
+use App\Http\Controllers\ReportController;
 use App\Http\Middleware\Authenticator;
 use Illuminate\Support\Facades\Route;
 
@@ -28,6 +29,8 @@ Route::middleware(Authenticator::class)->group(function () {
     Route::resource('categories', CategoryController::class)->except(['view']);
 
     Route::delete('credit_cards/{creditCard}', [CreditCardController::class, 'destroy'])->name('credit_cards.destroy');
+
+    Route::get('reports', [ReportController::class, 'index'])->name('reports.index');
     
     // Rota aninhada para acessar os cartões de uma conta específica
     Route::prefix('accounts/{account}')->name('accounts.')->group(function () {

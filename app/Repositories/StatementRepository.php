@@ -6,6 +6,7 @@ use App\Models\Account;
 use App\Models\Installment;
 use App\Models\Statement;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class StatementRepository
 {
@@ -145,7 +146,20 @@ class StatementRepository
             ->get();
     }
 
-    public function getByAccount(Account $account, int $perPage = 12) {
+    public function getByAccount(Account $account, int $perPage = 12)
+    {
         return $account->statements()->orderByDesc('opening_date')->paginate($perPage);
+    }
+
+    public function reportMonthByMonth(int $userId)
+    {
+        return DB::table('statements')
+            ->join('accounts', 'statements.account_id', '=', 'accounts.id')
+            ->where('accounts.user_id', $userId)
+            ->selectRaw("DATE_FORMAT(statements.due_date, '%Y-%m') as month, accounts.name as account, SUM(statements.total_amount) as total")
+            ->groupBy('month', 'account')
+            ->orderBy('month')
+            ->get()
+            ->toArray();
     }
 }
