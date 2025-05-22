@@ -27,7 +27,7 @@ class TransactionRequest extends FormRequest
             'date'               => 'required|date|before_or_equal:today',
             'value'              => 'required|numeric|min:0.01',
             'credit_card_id'     => 'required|exists:credit_cards,id',
-            'installment'        => 'required|integer|min:1',
+            'installment'        => 'required|integer|min:1|max:48',
             'category_id'        => 'required|exists:categories,id',
             'budget_category_id' => 'exists:budget_categories,id',
         ];
@@ -52,6 +52,7 @@ class TransactionRequest extends FormRequest
             'installment.required' => 'A quantidade de parcelas é obrigatória.',
             'installment.integer' => 'A quantidade de parcelas deve ser um número inteiro.',
             'installment.min' => 'A quantidade de parcelas deve ser maior ou igual a :min.',
+            'installment.max' => 'A quantidade de parcelas deve ser menor ou igual a :max.',
             'category_id.required' => 'A categoria é obrigatória.',
             'category_id.exists' => 'A categoria selecionada não existe.',
             'budget_category_id.exists' => 'A categoria de orçamento selecionada não existe.'

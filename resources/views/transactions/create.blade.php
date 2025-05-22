@@ -77,6 +77,7 @@
                         name="installment"
                         id="installment"
                         min="1"
+                        max="48"
                         placeholder="Quantidade de parcelas"
                         class="form-control"
                         value="{{ old('installment', 1) }}"

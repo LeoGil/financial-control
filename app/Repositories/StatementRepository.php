@@ -81,16 +81,32 @@ class StatementRepository
             ->whereIn('id', $statementIds)
             ->get();
 
+        $statementsToBeDeleted = [];
+        $statementsToBeUpdated = [];
         foreach ($statements as $statement) {
             $txData = $groupedData[$statement->id];
             $remaining = $statement->installments_count - $txData['count'];
 
             if ($remaining < 1) {
-                $statement->delete();
+                $statementsToBeDeleted[] = $statement->id;
             } else {
-                $statement->decrement('total_amount', $txData['sum_amount']);
+                $statementsToBeUpdated[] = [
+                    'id' => $statement->id,
+                    'total_amount' => $statement->total_amount - $txData['sum_amount'],
+                    'account_id' => $statement->account_id,
+                    'opening_date' => $statement->opening_date,
+                    'closing_date' => $statement->closing_date,
+                    'payment_date' => $statement->payment_date,
+                    'due_date' => $statement->due_date,
+                    'status' => $statement->status,
+                ];
             }
         }
+
+        Statement::whereIn('id', $statementsToBeDeleted)->delete();
+        DB::table('statements')->upsert($statementsToBeUpdated, ['id'], ['total_amount']);
+        // Possivel solucao, passando apenas id e total_amount
+        // $this->bulkUpdateAmounts($statementsToBeUpdated);
     }
 
     public function getTotalByStatus(string $status, int $userId)
@@ -161,5 +177,34 @@ class StatementRepository
             ->orderBy('month')
             ->get()
             ->toArray();
+    }
+
+    public function bulkUpdateAmounts(array $statementsToBeUpdated): void
+    {
+        if (empty($statementsToBeUpdated)) {
+            return;
+        }
+
+        $cases = '';
+        $ids = [];
+
+        foreach ($statementsToBeUpdated as $item) {
+            $id = (int) $item['id'];
+            $amount = (float) $item['total_amount'];
+            $cases .= "WHEN {$id} THEN {$amount} ";
+            $ids[] = $id;
+        }
+
+        $idList = implode(',', $ids);
+
+        $sql = "
+            UPDATE statements
+            SET total_amount = CASE id
+                {$cases}
+            END
+            WHERE id IN ({$idList})
+        ";
+
+        DB::statement($sql);
     }
 }
