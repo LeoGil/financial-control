@@ -24,11 +24,6 @@ class AccountRequest extends FormRequest
                 'integer',
                 'min:1',
                 'max:31',
-                function ($attribute, $value, $fail) {
-                    if ($value <= $this->input('closing_day')) {
-                        $fail('O dia de vencimento deve ser maior que o dia de fechamento.');
-                    }
-                },
             ],
         ];
 
