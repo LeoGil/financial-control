@@ -12,7 +12,7 @@ class CreditCardRepository
     public function getByUserId(int $userId) {
         return CreditCard::whereHas('account', function ($query) use ($userId) {
             $query->where('user_id', $userId);
-        })->get();
+        })->with('account')->get();
     }
 
     public function getById(int $id) {

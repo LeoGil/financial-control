@@ -67,7 +67,7 @@
                     <select name="credit_card_id" id="credit_card_id" class="form-select" required>
                         <option value="" disabled selected>Selecione um cartão</option>
                         @foreach ($creditCards as $creditCard)
-                            <option value="{{ $creditCard->id }}">{{ $creditCard->name }}</option>
+                            <option value="{{ $creditCard->id }}">{{ $creditCard->name }} - {{ $creditCard->account->name }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -90,6 +90,7 @@
                 <div class="col-6">
                     <label for="category_id" class="form-label fw-bold">Categoria</label>
                     <select name="category_id" id="category_id" class="form-select" required>
+                        <option value="" disabled selected>Selecione uma categoria</option>
                         @foreach ($categories as $category)
                             <option value="{{ $category->id }}">{{ $category->name }}</option>
                         @endforeach

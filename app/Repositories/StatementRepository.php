@@ -24,19 +24,24 @@ class StatementRepository
             return $existing;
         }
 
-        $closingDate = Carbon::create($year, $month, $closingDay)->endOfDay();
+        $daysInMonth = Carbon::create($year, $month, 1)->daysInMonth;
+        $safeClosingDay = min($closingDay, $daysInMonth);
+        $closingDate = Carbon::create($year, $month, $safeClosingDay)->endOfDay();
         $openingDate = $closingDate->copy()->subMonth()->addDay();
-        $dueDate = Carbon::create($year, $month, $dueDay)->endOfDay();
+
+        if ($dueDay > $closingDay) {
+            $dueDate = Carbon::create($year, $month, $dueDay)->endOfDay();
+        } else {
+            $dueDate = Carbon::create($year, $month, 1)->addMonth()->day($dueDay)->endOfDay();
+        }
 
         $now = now();
         $status = 'upcoming';
 
         if ($now->between($openingDate, $closingDate)) {
             $status = 'open';
-        } elseif ($now->greaterThan($closingDate) && $now->lessThanOrEqualTo($dueDate)) {
+        } elseif ($now->greaterThan($closingDate)) {
             $status = 'closed';
-        } elseif ($now->greaterThan($dueDate)) {
-            $status = 'overdue';
         }
 
         return Statement::create([

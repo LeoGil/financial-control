@@ -7,6 +7,7 @@
                 <thead class="table-light">
                     <tr>
                         <th>Valor Total</th>
+                        <th>Fechamento</th>
                         <th>Vencimento</th>
                         <th>Status</th>
                         <th class="text-center">Ações</th>
@@ -26,6 +27,7 @@
                         @endphp
                         <tr>
                             <td><strong>R${{ number_format($statement->total_amount, 2, ',', '.') }}</strong></td>
+                            <td>{{ $statement->closing_date->format('d/m/Y') }}</td>
                             <td>{{ $statement->due_date->format('d/m/Y') }}</td>
                             <td><span class="badge fw-light {{ $badgeData[0] }}">{{ $badgeData[1] }}</span></td>
                             <td class="text-center">

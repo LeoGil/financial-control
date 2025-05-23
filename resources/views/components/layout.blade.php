@@ -23,6 +23,12 @@
         </a>
       </li>
       <li class="nav-item mb-1">
+        <a href="{{ route('categories.index') }}"
+           class="nav-link text-dark {{ request()->routeIs('categories.*') ? 'active' : '' }}">
+          <i class="fa fa-tags me-2"></i>Categorias
+        </a>
+      </li>
+      <li class="nav-item mb-1">
         <a href="#" class="nav-link text-dark">
           <i class="fa fa-gear me-2"></i>Configurações
         </a>
@@ -31,12 +37,6 @@
         <a href="{{ route('accounts.index') }}"
            class="nav-link text-dark {{ request()->routeIs('accounts.*') ? 'active' : '' }}">
           <i class="fa fa-landmark me-2"></i>Contas bancárias
-        </a>
-      </li>
-      <li class="nav-item mb-1">
-        <a href="{{ route('categories.index') }}"
-           class="nav-link text-dark {{ request()->routeIs('categories.*') ? 'active' : '' }}">
-          <i class="fa fa-tags me-2"></i>Categorias
         </a>
       </li>
       <li class="nav-item mb-1">
