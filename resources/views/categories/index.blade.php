@@ -9,6 +9,7 @@
             <thead class="table-light">
                 <tr>
                     <th>Nome</th>
+                    <th>Descrição</th>
                     <th class="text-center">Ações</th>
                 </tr>
             </thead>
@@ -16,6 +17,7 @@
                 @foreach ($categories as $category)
                     <tr>
                         <td>{{ $category->name }}</td>
+                        <td>{{ $category->description }}</td>
                         <td class="text-center">
                             <a href="#" class="btn btn-sm btn-info">Detalhes</a>
                             <a href="#" class="btn btn-sm btn-warning">Editar</a>

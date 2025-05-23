@@ -3,7 +3,7 @@
 namespace App\Services;
 
 use App\Models\Transaction;
-use App\Repositories\CreditCardRepository;
+use App\Repositories\AccountRepository;
 use App\Repositories\StatementRepository;
 use App\Repositories\TransactionRepository;
 use App\Repositories\InstallmentRepository;
@@ -17,14 +17,14 @@ class TransactionService
      */
     public function __construct(
         protected TransactionRepository $transactionRepository,
-        protected CreditCardRepository $creditCardRepository,
+        protected AccountRepository $accountRepository,
         protected StatementRepository $statementRepository,
         protected InstallmentRepository $installmentRepository
     ) {}
 
     public function store($data)
     {
-        $creditCard = $this->creditCardRepository->getById($data['credit_card_id']);
+        $account = $this->accountRepository->getByCreditCardId($data['credit_card_id']);
         $purchaseDate = $this->parseDate($data['date']);
 
         $transaction = $this->transactionRepository->store([
@@ -41,15 +41,15 @@ class TransactionService
         $installmentCount = $data['installment'];
         $installmentValue = $data['value'] / $installmentCount;
 
-        $firstStatementDate = $this->getFirstStatementDate($purchaseDate, $creditCard->closing_day);
+        $firstStatementDate = $this->getFirstStatementDate($purchaseDate, $account->closing_day);
         $installmentDates = $this->generateInstallmentsDates($firstStatementDate, $installmentCount);
 
         foreach ($installmentDates as $i => $statementMonthDate) {
             $statement = $this->statementRepository->findOrCreateStatement(
-                $creditCard->account_id,
+                $account->id,
                 $statementMonthDate,
-                $creditCard->closing_day,
-                $creditCard->due_day
+                $account->closing_day,
+                $account->due_day
             );
 
             $this->installmentRepository->store([

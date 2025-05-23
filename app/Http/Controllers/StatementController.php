@@ -23,6 +23,6 @@ class StatementController extends Controller
 
         $statementRepository->pay($statement);
 
-        return redirect()->route('accounts.statements.index', $account)->with('successMessage', 'Conta paga com sucesso!');
+        return redirect()->back()->with('successMessage', 'Conta paga com sucesso!');
     }
 }

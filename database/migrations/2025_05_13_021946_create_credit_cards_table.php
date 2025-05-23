@@ -15,9 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('account_id')->constrained()->onDelete('cascade');
             $table->string('name');
-            $table->tinyInteger('closing_day');
-            $table->tinyInteger('due_day');
-            $table->decimal('credit_limit', 12, 2);
+            $table->decimal('credit_limit', 12, 2)->nullable();
             $table->timestamps();
         });
     }

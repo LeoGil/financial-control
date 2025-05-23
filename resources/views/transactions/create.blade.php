@@ -65,6 +65,7 @@
                 <div class="col-6">
                     <label for="credit_card_id" class="form-label fw-bold">Cartão</label>
                     <select name="credit_card_id" id="credit_card_id" class="form-select" required>
+                        <option value="" disabled selected>Selecione um cartão</option>
                         @foreach ($creditCards as $creditCard)
                             <option value="{{ $creditCard->id }}">{{ $creditCard->name }}</option>
                         @endforeach

@@ -17,48 +17,13 @@
                 </div>
             </div>
             <div class="row mb-3">
-                {{-- <div class="col-6">
-                    <label for="account_id" class="form-label">Conta</label>
-                    <select name="account_id" id="account_id" class="form-select" required disabled>
-                        <option value="{{ $account->id }}">{{ $account->name }}</option>
-                    </select>
-                </div> --}}
                 <div class="col-6">
-                    <label for="closing_day" class="form-label">Dia de fechamento</label>
-                    <input
-                        type="number"
-                        name="closing_day"
-                        id="closing_day"
-                        class="form-control"
-                        value="{{ old('closing_day') }}"
-                        max="31"
-                        min="1"
-                        required
-                    />
-                </div>
-                <div class="col-6">
-                    <label for="due_day" class="form-label">Dia de vencimento</label>
-                    <input
-                        type="number"
-                        name="due_day"
-                        id="due_day"
-                        class="form-control"
-                        value="{{ old('due_day') }}"
-                        max="31"
-                        min="1"
-                        required
-                    />
-                </div>
-            </div>
-            <div class="row mb-3">
-                <div class="col-6">
-                    <label for="credit_limit" class="form-label">Limite de crédito</label>
+                    <label for="credit_limit" class="form-label">Limite de crédito <i class="text-muted">(Opcional)</i></label>
                     <input type="number"
                         name="credit_limit"
                         id="credit_limit"
                         class="form-control"
-                        value="{{ old('credit_limit') }}"
-                        required>
+                        value="{{ old('credit_limit') }}">
                 </div>
             </div>
             <button type="submit" class="btn btn-success">Salvar</button>

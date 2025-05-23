@@ -51,6 +51,10 @@
                     <span class="fw-semibold">Fatura atual:</span>
                     R$ {{ number_format($st->total_amount, 2, ',', '.') }}
                   </p>
+                  <p class="mb-1 text-muted small">
+                    <span class="fw-semibold">Fechamento:</span>
+                    {{ $st->closing_date->format('d/m/Y') }}
+                  </p>
                   <p class="text-muted small">
                     <span class="fw-semibold">Vencimento:</span>
                     {{ $st->due_date->format('d/m/Y') }}

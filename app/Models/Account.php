@@ -12,6 +12,8 @@ class Account extends Model
     protected $fillable = [
         'name',
         'user_id',
+        'closing_day',
+        'due_day'
     ];
 
     public function user()

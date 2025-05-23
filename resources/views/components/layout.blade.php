@@ -19,6 +19,11 @@
     <ul class="nav nav-pills flex-column mb-auto">
       <li class="nav-item mb-1">
         <a href="#" class="nav-link text-dark">
+          <i class="fa fa-barcode me-2"></i>Boletos
+        </a>
+      </li>
+      <li class="nav-item mb-1">
+        <a href="#" class="nav-link text-dark">
           <i class="fa fa-gear me-2"></i>Configurações
         </a>
       </li>
