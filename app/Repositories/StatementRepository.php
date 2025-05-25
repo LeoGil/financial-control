@@ -184,7 +184,22 @@ class StatementRepository
             ->toArray();
     }
 
-    public function bulkUpdateAmounts(array $statementsToBeUpdated): void
+    public function reportMonthByMonthByCategory(int $userId)
+    {
+        return DB::table('statements')
+            ->join('accounts', 'statements.account_id', '=', 'accounts.id')
+            ->join('installments', 'statements.id', '=', 'installments.statement_id')
+            ->join('transactions', 'installments.transaction_id', '=', 'transactions.id')
+            ->join('categories', 'transactions.category_id', '=', 'categories.id')
+            ->where('accounts.user_id', $userId)
+            ->selectRaw("DATE_FORMAT(statements.due_date, '%Y-%m') as month, categories.name as category, SUM(installments.amount) as total")
+            ->groupBy('month', 'category')
+            ->orderBy('month')
+            ->get()
+            ->toArray();
+    }
+
+    private function bulkUpdateAmounts(array $statementsToBeUpdated): void
     {
         if (empty($statementsToBeUpdated)) {
             return;

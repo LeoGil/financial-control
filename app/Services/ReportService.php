@@ -20,6 +20,13 @@ class ReportService
         return $this->groupChartSeries($data, 'month', 'account', 'total');
     }
 
+    public function generateMonthlyReportByCategory(int $userId)
+    {
+        $data = $this->statementRepository->reportMonthByMonthByCategory($userId);
+
+        return $this->groupChartSeries($data, 'month', 'category', 'total');
+    }
+
     private function groupChartSeries(array $data, string $categoryField, string $seriesField, string $valueField): array
     {
         $categories = [];

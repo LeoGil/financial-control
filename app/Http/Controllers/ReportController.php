@@ -10,11 +10,10 @@ class ReportController extends Controller
 {
     public function index(ReportService $reportService)
     {
-        $report = $reportService->generateMonthlyReport(Auth::id());
+        $report = [];
+        $report['statementByMonth'] = $reportService->generateMonthlyReport(Auth::id());
+        $report['statementByMonthByCategory'] = $reportService->generateMonthlyReportByCategory(Auth::id());
 
-        $series = $report['series'];
-        $categories = $report['categories'];
-
-        return view('reports.index', compact('series', 'categories'));
+        return view('reports.index', compact('report'));
     }
 }
