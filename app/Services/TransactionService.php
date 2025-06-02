@@ -101,7 +101,7 @@ class TransactionService
             return $purchaseDate->copy()->startOfMonth();
         }
 
-        return $purchaseDate->copy()->addMonth()->startOfMonth();
+        return $purchaseDate->copy()->addMonthNoOverflow()->startOfMonth();
     }
 
     private function generateInstallmentsDates(Carbon $firstStatementDate, int $installments): array
