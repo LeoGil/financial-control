@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Jobs\CheckClosedStatements;
 use App\Jobs\CheckCurrentStatements;
 use App\Jobs\CheckOverdueStatements;
+use App\Services\StatementService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -15,7 +16,7 @@ class LoginController extends Controller
         return view('login.index');
     }
 
-    public function store(Request $request)
+    public function store(Request $request, StatementService $service)
     {
         $request->validate([
             'email' => 'required|email',
@@ -26,9 +27,15 @@ class LoginController extends Controller
             return back()->withErrors('Usuário ou senha inválidos.');
         }
 
-        CheckOverdueStatements::dispatch(Auth::id());
-        CheckCurrentStatements::dispatch(Auth::id());
-        CheckClosedStatements::dispatch(Auth::id());
+        if (!app()->environment('production')) {
+            $service->checkOverdueForUser(Auth::id());
+            $service->checkNextCurrentStatements(Auth::id());
+            $service->checkClosedStatements(Auth::id());
+        } else {
+            CheckOverdueStatements::dispatch(Auth::id());
+            CheckCurrentStatements::dispatch(Auth::id());
+            CheckClosedStatements::dispatch(Auth::id());
+        }
 
         return redirect()->route('accounts.index');
     }
