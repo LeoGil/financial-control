@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\CheckClosedStatements;
 use App\Jobs\CheckCurrentStatements;
 use App\Jobs\CheckOverdueStatements;
 use Illuminate\Http\Request;
@@ -27,6 +28,7 @@ class LoginController extends Controller
 
         CheckOverdueStatements::dispatch(Auth::id());
         CheckCurrentStatements::dispatch(Auth::id());
+        CheckClosedStatements::dispatch(Auth::id());
 
         return redirect()->route('accounts.index');
     }

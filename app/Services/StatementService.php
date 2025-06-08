@@ -53,9 +53,24 @@ class StatementService
         }
     }
 
+    public function checkClosedStatements(int $userId): void
+    {
+        $closedStatements = $this->statementRepository->checkClosedStatements($userId);
+
+        foreach ($closedStatements as $statement) {
+            $this->markAsClosed($statement);
+        }
+    }
+
     private function markAsOpen(Statement $statement): void
     {
         $statement->status = 'open';
+        $statement->save();
+    }
+
+    private function markAsClosed(Statement $statement): void
+    {
+        $statement->status = 'closed';
         $statement->save();
     }
 }

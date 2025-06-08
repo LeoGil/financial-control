@@ -14,8 +14,8 @@ class AccountController extends Controller
     {
         $accounts = $accountRepository->getUserAccountsWithOldestOpenStatement();
 
-        $totalOpen = $statementRepository->getTotalByStatus('open', Auth::id());
-        $totalOverdue = $statementRepository->getTotalByStatus('overdue', Auth::id());
+        $totalOpen = $statementRepository->getTotalByStatus(['open', 'closed'], Auth::id());
+        $totalOverdue = $statementRepository->getTotalByStatus(['overdue'], Auth::id());
         $totalPaid = $statementRepository->getTotalPaidThisMonth(Auth::id());
         $nextDueDateFormatted = $statementRepository->getNextDueDate(Auth::id()) ?? '-';
 

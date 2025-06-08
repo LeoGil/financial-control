@@ -40,8 +40,10 @@ class StatementRepository
 
         if ($now->between($openingDate, $closingDate)) {
             $status = 'open';
-        } elseif ($now->greaterThan($closingDate)) {
+        } elseif ($now->greaterThan($closingDate) && $now->lessThan($dueDate)) {
             $status = 'closed';
+        } else {
+            $status = 'overdue';
         }
 
         return Statement::create([
@@ -114,12 +116,12 @@ class StatementRepository
         // $this->bulkUpdateAmounts($statementsToBeUpdated);
     }
 
-    public function getTotalByStatus(string $status, int $userId)
+    public function getTotalByStatus(array $status, int $userId)
     {
         return Statement::whereHas('account', function ($query) use ($userId) {
             $query->where('user_id', $userId);
         })
-            ->where('status', $status)
+            ->whereIn('status', $status)
             ->sum('total_amount');
     }
 
@@ -164,6 +166,16 @@ class StatementRepository
         })
             ->where('status', 'upcoming')
             ->where('opening_date', '<=', now())
+            ->get();
+    }
+
+    public function checkClosedStatements(int $userId)
+    {
+        return Statement::whereHas('account', function ($query) use ($userId) {
+            $query->where('user_id', $userId);
+        })
+            ->where('closing_date', '<=', now())
+            ->where('due_date', '>', now())
             ->get();
     }
 
