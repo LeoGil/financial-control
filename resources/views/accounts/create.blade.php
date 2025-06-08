@@ -18,7 +18,9 @@
             </div>
             <div class="row mb-3">
                 <div class="col-6">
-                    <label for="closing_day" class="form-label">Dia de fechamento</label>
+                    <label for="closing_day" class="form-label">Dia de fechamento 
+                        <i class="fas fa-info-circle" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Indique o dia em que é considerado os últimos lançamentos da conta"></i>
+                    </label>
                     <input
                         type="number"
                         name="closing_day"

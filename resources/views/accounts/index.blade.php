@@ -23,22 +23,25 @@
     @endforeach
   </div>
 
-  {{-- Ações + Busca --}}
-  <div class="my-3 d-flex flex-column flex-sm-row gap-2">
-    <div class="btn-group mb-2">
-      <a href="{{ route('accounts.create') }}" class="btn btn-outline-success btn-sm">
-        <i class="fa-solid fa-landmark"></i> Nova conta bancária
-      </a>
-      <a href="{{ route('transactions.create') }}" class="btn btn-outline-danger btn-sm">
-        <i class="fa-solid fa-plus-minus"></i> Nova transação
-      </a>
-    </div>
-  </div>
-
   {{-- Tabela de Contas --}}
   @if ($accounts->isEmpty())
     <p class="text-center text-muted fst-italic">Nenhuma conta cadastrada.</p>
+    <div class="d-flex justify-content-center my-3">
+      <a href="{{ route('accounts.create') }}" class="btn btn-outline-success btn-sm">
+        <i class="fa-solid fa-landmark"></i> Cadastre sua primeira conta
+      </a>
+    </div>
   @else
+    <div class="my-3 d-flex flex-column flex-sm-row gap-2">
+      <div class="btn-group mb-2">
+        <a href="{{ route('accounts.create') }}" class="btn btn-outline-success btn-sm">
+          <i class="fa-solid fa-landmark"></i> Nova conta bancária
+        </a>
+        <a href="{{ route('transactions.create') }}" class="btn btn-outline-danger btn-sm">
+          <i class="fa-solid fa-plus-minus"></i> Nova transação
+        </a>
+      </div>
+    </div>
     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
       @foreach($accounts as $account)
         <div class="col">

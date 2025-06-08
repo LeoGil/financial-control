@@ -18,10 +18,15 @@ class AccountRequest extends FormRequest
     {
         $rules = [
             'name' => 'required|string',
-            'closing_day' => 'required|integer|min:1|max:31',
+            'closing_day' => [
+                'required',
+                'numeric',
+                'min:1',
+                'max:31'
+            ],
             'due_day' => [
                 'required',
-                'integer',
+                'numeric',
                 'min:1',
                 'max:31',
             ],
@@ -35,11 +40,11 @@ class AccountRequest extends FormRequest
         return [
             'name.required' => 'O nome é obrigatório.',
             'closing_day.required' => 'O dia de fechamento é obrigatório.',
-            'closing_day.integer' => 'O dia de fechamento deve ser um número inteiro.',
+            'closing_day.numeric' => 'O dia de fechamento deve ser um número.',
             'closing_day.min' => 'O dia de fechamento deve ser maior ou igual a :min.',
             'closing_day.max' => 'O dia de fechamento deve ser menor ou igual a :max.',
             'due_day.required' => 'O dia de vencimento é obrigatório.',
-            'due_day.integer' => 'O dia de vencimento deve ser um número inteiro.',
+            'due_day.numeric' => 'O dia de vencimento deve ser um número inteiro.',
             'due_day.min' => 'O dia de vencimento deve ser maior ou igual a :min.',
             'due_day.max' => 'O dia de vencimento deve ser menor ou igual a :max.',
         ];

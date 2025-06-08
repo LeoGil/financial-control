@@ -42,7 +42,7 @@ class StatementRepository
             $status = 'open';
         } elseif ($now->greaterThan($closingDate) && $now->lessThan($dueDate)) {
             $status = 'closed';
-        } else {
+        } elseif ($now->greaterThan($dueDate)) {
             $status = 'overdue';
         }
 

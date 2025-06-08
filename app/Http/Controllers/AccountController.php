@@ -37,9 +37,9 @@ class AccountController extends Controller
     {
         $data = $request->validated();
 
-        Account::create($data);
+        $account = Account::create($data);
 
-        return redirect()->route('accounts.index')
-            ->with('successMessage', 'Conta cadastrada com sucesso!');
+        return redirect()->route('accounts.credit_cards.create', $account->id)
+            ->with('successMessage', "Conta criada com sucesso! Agora cadastre um cartão de crédito para conseguir realizar transações.");
     }
 }
