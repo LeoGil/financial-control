@@ -3,14 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\TransactionRequest;
-use App\Models\Account;
-use App\Models\Statement;
 use App\Models\Transaction;
-use App\Models\User;
 use App\Repositories\BudgetCategoryRepository;
 use App\Repositories\CategoryRepository;
 use App\Repositories\CreditCardRepository;
-use App\Repositories\StatementRepository;
 use App\Repositories\TransactionRepository;
 use App\Services\TransactionService;
 use Illuminate\Support\Facades\Gate;
@@ -31,11 +27,12 @@ class TransactionController extends Controller
         CategoryRepository $categoryRepository,
         BudgetCategoryRepository $budgetCategoryRepository
     ) {
+        $transaction = new Transaction();
         $creditCards = $creditCardRepository->getByUserId(Auth::user()->id);
         $categories = $categoryRepository->getByUserId(Auth::user()->id);
         $budgetCategories = $budgetCategoryRepository->getByUserId(Auth::user()->id);
 
-        return view('transactions.create', compact('creditCards', 'categories', 'budgetCategories'));
+        return view('transactions.create', compact('transaction', 'creditCards', 'categories', 'budgetCategories'));
     }
 
     public function store(
@@ -47,6 +44,32 @@ class TransactionController extends Controller
 
         return redirect()->route('transactions.create')
             ->with('successMessage', 'Transação cadastrada com sucesso!');
+    }
+
+    public function edit(
+        Transaction $transaction,
+        CreditCardRepository $creditCardRepository,
+        CategoryRepository $categoryRepository,
+        BudgetCategoryRepository $budgetCategoryRepository
+    ) {
+        $creditCards = $creditCardRepository->getByUserId(Auth::user()->id);
+        $categories = $categoryRepository->getByUserId(Auth::user()->id);
+        $budgetCategories = $budgetCategoryRepository->getByUserId(Auth::user()->id);
+
+        return view('transactions.edit', compact('transaction', 'creditCards', 'categories', 'budgetCategories'));
+    }
+
+    public function update(
+        Transaction $transaction,
+        TransactionRequest $request,
+        TransactionService $service
+    ) {
+        $data = $request->validated();
+
+        $service->update($transaction, $data);
+
+        return redirect()->route('transactions.index')
+            ->with('successMessage', 'Transação atualizada com sucesso!');
     }
 
     public function destroy(Transaction $transaction, TransactionService $service)

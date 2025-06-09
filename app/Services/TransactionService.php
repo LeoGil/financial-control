@@ -32,14 +32,14 @@ class TransactionService
             'date'               => $purchaseDate->format('Y-m-d'),
             'name'               => $data['name'],
             'description'        => $data['description'] ?? null,
-            'amount'             => $data['value'],
+            'amount'             => $data['amount'],
             'category_id'        => $data['category_id'],
             'subcategory_id'     => $data['subcategory_id'] ?? null,
             'budget_category_id' => $data['budget_category_id'] ?? null,
         ]);
 
         $installmentCount = $data['installment'];
-        $installmentValue = $data['value'] / $installmentCount;
+        $installmentValue = $data['amount'] / $installmentCount;
 
         $firstStatementDate = $this->getFirstStatementDate($purchaseDate, $account->closing_day);
         $installmentDates = $this->generateInstallmentsDates($firstStatementDate, $installmentCount);
@@ -88,6 +88,12 @@ class TransactionService
             $this->statementRepository->adjustAfterTransactionDeletion($grouped);
             $this->transactionRepository->delete($transaction);
         });
+    }
+
+    public function update(Transaction $transaction, array $data): void
+    {
+        $this->destroy($transaction);
+        $this->store($data);
     }
 
     private function parseDate($date)

@@ -34,7 +34,7 @@
                         <td>{{ $transaction->category->name }}</td>
                         <td><strong>R${{ number_format($transaction->amount, 2, ',', '.') }}</strong></td>
                         <td class="text-center">
-                            <a href="#" class="btn btn-sm btn-warning">Editar</a>
+                            <a href="{{ route('transactions.edit', $transaction->id) }}" class="btn btn-sm btn-warning">Editar</a>
                             <form action="{{ route('transactions.destroy', $transaction->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Deseja realmente excluir essa transação? Todas as faturas e parcelas vinculadas a essa transação serão excluidas')">
                                 @csrf
                                 @method('DELETE')

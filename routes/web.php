@@ -24,7 +24,7 @@ Route::middleware(Authenticator::class)->group(function () {
         return redirect('/accounts');
     });
 
-    Route::resource('transactions', TransactionController::class)->only(['create', 'store', 'index', 'destroy']);
+    Route::resource('transactions', TransactionController::class)->except(['view']);
 
     Route::resource('categories', CategoryController::class)->except(['view']);
 

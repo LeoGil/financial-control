@@ -1,8 +1,8 @@
 <x-layout>
-    <x-form title="Nova transação" maxWidth="600px">
+    <x-form title="Editar transação" maxWidth="600px">
         @include('transactions._form', [
-            'formAction' => route('transactions.store'),
-            'isEdit' => false,
+            'formAction' => route('transactions.update', $transaction->id),
+            'isEdit' => true,
             'transaction' => $transaction,
             'creditCards' => $creditCards,
             'categories' => $categories,
